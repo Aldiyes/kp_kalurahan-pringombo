@@ -1,5 +1,7 @@
+import { auth } from '@/auth';
 import { ToastProvider } from '@/providers/toaster-provider';
 import type { Metadata } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -10,16 +12,19 @@ export const metadata: Metadata = {
 	description: 'Sanata Dharma University',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const session = await auth();
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<ToastProvider />
-				{children}
+				<SessionProvider session={session}>
+					<ToastProvider />
+					{children}
+				</SessionProvider>
 			</body>
 		</html>
 	);

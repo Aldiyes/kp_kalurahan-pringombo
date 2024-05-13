@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { MoveLeft } from 'lucide-react';
 
-import { LoginForm } from '@/components/auth/login-form';
+import { LoginForm } from '@/components/auth/form/login-form';
 
 export default async function LoginPage() {
 	return (

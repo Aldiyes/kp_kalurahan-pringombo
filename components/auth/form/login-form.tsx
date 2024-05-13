@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 
 import { Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { login } from '@/actions/auth/login';
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -26,6 +27,9 @@ const FormSchema = z.object({
 
 export const LoginForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
+	const [error, setError] = useState<string | undefined>('');
+	const [success, setSuccess] = useState<string | undefined>('');
+	const [isPending, startTransition] = useTransition();
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -35,8 +39,25 @@ export const LoginForm = () => {
 		},
 	});
 
-	const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-		console.log(values);
+	const onSubmit = (values: z.infer<typeof FormSchema>) => {
+		setError('');
+		setSuccess('');
+		startTransition(() => {
+			login(values)
+				.then((data) => {
+					if (data?.error) {
+						form.reset();
+						setError(data.error);
+					}
+					if (data?.success) {
+						form.reset();
+						setSuccess(data.success);
+					}
+				})
+				.catch(() => {
+					setError('Something went wrong');
+				});
+		});
 	};
 
 	return (
@@ -70,7 +91,7 @@ export const LoginForm = () => {
 							<FormControl>
 								<Input
 									placeholder="Password"
-									type={showPassword ? 'password' : 'text'}
+									type={showPassword ? 'text' : 'password'}
 									className="p-2 rounded-xl border w-full"
 									{...field}
 								/>
@@ -81,9 +102,9 @@ export const LoginForm = () => {
 								onClick={() => setShowPassword(!showPassword)}
 							>
 								{showPassword ? (
-									<EyeOff className="w-4 h-4" />
-								) : (
 									<Eye className="w-4 h-4" />
+								) : (
+									<EyeOff className="w-4 h-4" />
 								)}
 							</Button>
 							<FormMessage />
