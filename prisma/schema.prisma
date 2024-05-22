@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  password      String
+  emailVerified DateTime?
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model Penduduk {
+  nik                  String    @id
+  nokk                 String?
+  nama                 String
+  alias                String?
+  agama                String?
+  jenis_kelamin        String?
+  kewarganegaraan      String    @default("Indonesia")
+  padukuhan            String?
+  rt                   Int?
+  rw                   Int?
+  pendidikan_kk        String?
+  pendidikan_sdt       String?
+  pekerjaan            String?
+  tanggal_lahir        DateTime?
+  tempat_lahir         String?
+  umur                 Int?
+  status_kawin         String?
+  shdk                 String?
+  gol_darah            String?
+  nama_ayah            String?
+  nama_ibu             String?
+  jabatan_di_kalurahan String    @default("penduduk")
+  status_duk           String?
+}
