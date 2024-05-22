@@ -6,9 +6,12 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export const SidebarRoutes = () => {
+	const { status } = useSession();
+
 	return (
 		<div className="flex flex-col w-full">
 			<Accordion type="single" collapsible>
@@ -104,6 +107,49 @@ export const SidebarRoutes = () => {
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
+			{status === 'authenticated' && (
+				<>
+					<Accordion type="single" collapsible>
+						<AccordionItem value="item-1" className="w-full pl-6">
+							<AccordionTrigger className="hover:underline-offset-0 hover:no-underline text-sm">
+								Layanan
+							</AccordionTrigger>
+							<AccordionContent className="flex flex-col space-y-2">
+								<Link
+									href="/informasi/berita"
+									className="pl-4 hover:text-sky-700"
+								>
+									Suket Usaha
+								</Link>
+								<Link
+									href="/informasi/pengumuman"
+									className="pl-4 hover:text-sky-700"
+								>
+									Suket Kematian
+								</Link>
+								<Link
+									href="/informasi/agenda-kegiatan"
+									className="pl-4 hover:text-sky-700"
+								>
+									Surat ...
+								</Link>
+								<Link
+									href="/informasi/galeri"
+									className="pl-4 hover:text-sky-700"
+								>
+									Surat ...
+								</Link>
+							</AccordionContent>
+						</AccordionItem>
+					</Accordion>
+					<Link
+						href="/penduduk/data-penduduk"
+						className="w-full pl-6 pt-4 text-sm font-semibold"
+					>
+						Data Penduduk
+					</Link>
+				</>
+			)}
 		</div>
 	);
 };
