@@ -5,6 +5,7 @@ import {
 import { formatDateStrip } from '@/lib/formats/format-date-strip';
 import Link from 'next/link';
 import Actions from '../actions';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 type Props = {
 	params: {
@@ -30,10 +31,10 @@ export default async function ShowDataPendudukPage({ params }: Props) {
 		<div className="p-6">
 			<div className="w-full">
 				<Link
-					href="/penduduk"
+					href="/penduduk/data-penduduk"
 					className="w-fit p-2 flex items-center test-sm hover:opacity-75 trasition mb-6"
 				>
-					{/* <IoMdArrowRoundBack className="h-4 w-4 mr-2" /> */}
+					<IoMdArrowRoundBack className="h-4 w-4 mr-2" />
 					Kembali
 				</Link>
 			</div>
