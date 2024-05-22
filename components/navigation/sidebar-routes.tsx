@@ -47,6 +47,10 @@ export const SidebarRoutes = () => {
 						>
 							Demografi Kalurahan
 						</Link>
+						<Link href = "/profil-kalurahan/potensi-kalurahan"
+							className="pl-4 hover:text-sky-700">
+								Potensi Kalurahan
+						</Link>
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
