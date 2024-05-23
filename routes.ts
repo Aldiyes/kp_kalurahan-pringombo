@@ -18,7 +18,6 @@ export const publicRoutes = [
 	'/informasi/agenda-kegiatan',
 	'/informasi/galeri',
 	'/auth/new-verification',
-	'/api/auth/register',
 ];
 
 /**
