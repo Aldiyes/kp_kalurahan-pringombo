@@ -122,10 +122,10 @@ export const SidebarRoutes = () => {
 									Surat Pengantar SKCK
 								</Link>
 								<Link
-									href="/informasi/pengumuman"
+									href="/layanan/suket-usaha"
 									className="pl-4 hover:text-sky-700"
 								>
-									Suket Kematian
+									Suket Keterangan Usaha
 								</Link>
 								<Link
 									href="/informasi/agenda-kegiatan"

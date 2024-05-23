@@ -3,7 +3,8 @@
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingPage from '../loading';
+
+import LoadingPage from '@/components/loading';
 
 function PrintLayout({ children }: { children: React.ReactNode }) {
 	const session = useSession();

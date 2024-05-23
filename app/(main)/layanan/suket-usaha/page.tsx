@@ -1,9 +1,9 @@
-import { getAllPengantarSkck } from '@/actions/surat/pengantar-skck';
+import { getAllSuketUsaha } from '@/actions/surat/suekt-usaha';
 
 import ListNoSurat from '@/components/surat/list-no-surat';
 
-async function PengantarSkckPage() {
-	const surat = await getAllPengantarSkck();
+export default async function SuketUsahaPage() {
+	const surat = await getAllSuketUsaha();
 	const dataSurat = surat.data;
 	return (
 		<div className="flex flex-wrap gap-2">
@@ -17,11 +17,9 @@ async function PengantarSkckPage() {
 					key={surat.no_surat}
 					nik={surat.pendudukId}
 					no_surat={surat.no_surat}
-					nama_surat="pengantar-skck"
+					nama_surat="suket-usaha"
 				/>
 			))}
 		</div>
 	);
 }
-
-export default PengantarSkckPage;

@@ -165,7 +165,7 @@ export const PengantarSkckForm = () => {
 										<AlertDialogCancel>Batal</AlertDialogCancel>
 										<AlertDialogAction
 											type="submit"
-											disabled={!isValid || isSubmitting}
+											disabled={!isValid || isSubmitting || isPending}
 										>
 											Buat surat
 										</AlertDialogAction>
