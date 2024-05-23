@@ -117,7 +117,10 @@ export default function PerangkatKalurahanPage() {
 			</h1>
 			<div className="grid mt-4 pb-16 md:px-8 gap-4 grid-cols-[repeat(auto-fill,minmax(150px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(230px,1fr))]">
 				{JabatanDiKalurahan.map((data) => (
-					<Link href={`/pemerintahan/perangkat-kalurahan/${data.id}`}>
+					<Link
+						key={data.id}
+						href={`/pemerintahan/perangkat-kalurahan/${data.id}`}
+					>
 						<DataCard
 							key={data.id}
 							image="/assets/logo.svg"

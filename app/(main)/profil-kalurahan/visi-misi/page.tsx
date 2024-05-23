@@ -17,7 +17,8 @@ export default function VisiMisiPage() {
 							gambaran yang menantang tentang keadaan masa depan, berisikan cita
 							dan citra yang ingin diwujudkan, dibangun melalui proses refleksi
 							dan proyeksi yang digali dari nilai-nilai luhur yang dianut oleh
-							seluruh komponen <span className="italic">stakeholder's.</span>
+							seluruh komponen{' '}
+							<span className="italic">stakeholder&apos;s.</span>
 						</p>
 						<p className="text-justify">
 							Cita-cita masa depan sebagai tujuan jangka menengah yang ingin
@@ -28,8 +29,8 @@ export default function VisiMisiPage() {
 					</div>
 					<div className="flex flex-col md:max-w-[90rem] gap-2 items-center justify-center">
 						<h1 className="font-bold italic text-center text-xl">
-							"TERWUJUDNYA DESA PRINGOMBO YANG SEHAT, CERDAS, MAJU MANDIRI,
-							BERMARTABAT DAN BERBUDAYA"
+							&quot;TERWUJUDNYA DESA PRINGOMBO YANG SEHAT, CERDAS, MAJU MANDIRI,
+							BERMARTABAT DAN BERBUDAYA&quot;
 						</h1>
 						<div className="flex flex-col items-center justify-center gap-2 pt-4">
 							<ol type="1" className="list-decimal list-inside text-left">
