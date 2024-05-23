@@ -2,7 +2,7 @@
 import { revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
 
-export const getAllPengantarSkck = async () => {
+export const getAllSuketUsaha = async () => {
 	const cookie = await headers().get('Cookie');
 	const headerList = new Headers();
 
@@ -10,27 +10,23 @@ export const getAllPengantarSkck = async () => {
 		headerList.append('Cookie', cookie);
 	}
 	const res = await fetch(
-		`${process.env.NEXT_APP_DOMAIN}/api/surat/pengantar-skck`,
+		`${process.env.NEXT_APP_DOMAIN}/api/surat/suket-usaha`,
 		{
 			cache: 'no-store',
 			next: {
-				tags: ['surat', 'pengantar-skck'],
+				tags: ['surat', 'suket-usaha'],
 			},
 			headers: headerList,
 		}
 	);
-	if (!res.ok) {
-		throw Error(`Error with status code: ${res.status}`);
-	}
+	// if (!res.ok) {
+	// 	throw Error(`Error with status code: ${res.status}`);
+	// }
 
 	return res.json();
 };
 
-export const createPengantarSkck = async (
-	nik: string,
-	no_surat: string,
-	keperluan: string
-) => {
+export const createSuketUsaha = async (values: any) => {
 	const cookie = await headers().get('Cookie');
 	const headerList = new Headers();
 
@@ -40,17 +36,11 @@ export const createPengantarSkck = async (
 		headerList.append('Cookie', cookie);
 	}
 
-	const dataDb = {
-		no_surat: no_surat,
-		pendudukId: nik,
-		keperluan: keperluan,
-	};
-
 	const res = await fetch(
-		`${process.env.NEXT_APP_DOMAIN}/api/surat/pengantar-skck`,
+		`${process.env.NEXT_APP_DOMAIN}/api/surat/suket-usaha`,
 		{
 			method: 'POST',
-			body: JSON.stringify(dataDb),
+			body: JSON.stringify(values),
 			headers: headerList,
 		}
 	);
@@ -59,7 +49,7 @@ export const createPengantarSkck = async (
 		throw Error(`Error with status code: ${res.status}`);
 	}
 
-	revalidateTag('pengantar-skck');
+	revalidateTag('suket-usaha');
 
 	return res.json();
 };
@@ -72,7 +62,7 @@ export const getSuratByNoSurat = async (no_surat: string) => {
 		headerList.append('Cookie', cookie);
 	}
 	const res = await fetch(
-		`${process.env.NEXT_APP_DOMAIN}/api/surat/pengantar-skck/${no_surat}`,
+		`${process.env.NEXT_APP_DOMAIN}/api/surat/suket-usaha/${no_surat}`,
 		{
 			cache: 'no-store',
 			next: {

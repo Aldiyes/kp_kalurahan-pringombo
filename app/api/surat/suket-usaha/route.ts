@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
+import { countAgeByDate } from '@/lib/formats/count-age';
 import { FormatTitleString } from '@/lib/formats/format-title-string';
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
@@ -15,11 +16,11 @@ export async function GET(req: NextRequest) {
 	}
 
 	try {
-		const surat = await db.pengantarSKCK.findMany();
+		const surat = await db.suketUsaha.findMany();
 
 		if (!surat) {
 			return NextResponse.json(
-				{ data: null, message: 'Pengantar SKCK not found' },
+				{ data: null, message: 'Surat Keterangan Usaha not found' },
 				{ status: 404 }
 			);
 		}
@@ -69,44 +70,44 @@ export async function POST(req: NextRequest) {
 			no_surat: atob(values.no_surat),
 			nama_lengkap: dataPerson.nama,
 			nik: atob(dataPerson.nik),
-			no_kk: dataPerson.nokk ? atob(dataPerson.nokk) : '-',
+			nama_panggilan: dataPerson.alias ? dataPerson.alias : '-',
 			tempat_lahir: dataPerson.tempat_lahir ? dataPerson.tempat_lahir : '-',
 			tanggal_lahir: dataPerson.tanggal_lahir
 				? timeZoneFormatString(dataPerson.tanggal_lahir)
 				: '-',
-			jenis_kelamin: dataPerson.jenis_kelamin ? dataPerson.jenis_kelamin : '-',
-			kewarganegaraan: dataPerson.kewarganegaraan,
-			agama: dataPerson.agama ? dataPerson.agama : '-',
-			pekerjaan: dataPerson.pekerjaan ? dataPerson.pekerjaan : '-',
-			pendidikan: dataPerson.pendidikan_kk ? dataPerson.pendidikan_kk : '-',
-			keperluan: values.keperluan,
+			usia: dataPerson.tanggal_lahir
+				? countAgeByDate(dataPerson.tanggal_lahir)
+				: '-',
 			rt: dataPerson.rt,
 			rw: dataPerson.rw,
 			padukuhan: dataPerson.padukuhan
 				? FormatTitleString(dataPerson.padukuhan)
 				: '-',
+			usaha_pokok: dataPerson.pekerjaan,
+			usaha_sampingan: values.usaha_sampingan,
+			di_kalurahan: values.di_kalurahan,
+			di_kapanewon: values.di_kapanewon,
+			di_kabupaten: values.di_kabupaten,
 			tanggal_surat: tanggalSurat,
 			nama_lurah: 'ALDIYES PASKALIS BIRTA',
 		};
 
-		const postToDrive = await fetch(`${process.env.PENGANTAR_SKCK_URL}`, {
+		const postToDrive = await fetch(`${process.env.SUKET_USAHA_URL}`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 		});
 
 		const viewUrl = await postToDrive.text();
-
-		const createPengantarSkck = await db.pengantarSKCK.create({
+		const createSuketUsaha = await db.suketUsaha.create({
 			data: {
-				no_surat: values.no_surat,
-				pendudukId: values.pendudukId,
-				keperluan: values.keperluan,
+				// pendudukId: values.nik,
 				doc_url: viewUrl,
+				...values,
 			},
 		});
 
 		return NextResponse.json(
-			{ data: createPengantarSkck, message: 'Success' },
+			{ data: createSuketUsaha, message: 'Success' },
 			{ status: 200 }
 		);
 	} catch (error) {

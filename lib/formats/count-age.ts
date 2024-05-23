@@ -21,3 +21,25 @@ export function countAge(birthDay: string): number {
 
 	return age;
 }
+export function countAgeByDate(birthDay: Date): number {
+	const dateNow = new Date();
+
+	const year = birthDay.getFullYear();
+	const month = birthDay.getMonth();
+	const birthdayNumber = birthDay.getDate();
+
+	const tahunSekarang = dateNow.getFullYear();
+	const bulanSekarang = dateNow.getMonth();
+	const dateNowNumber = dateNow.getDate();
+
+	let age = tahunSekarang - year;
+
+	if (
+		bulanSekarang < month ||
+		(bulanSekarang === month && dateNowNumber < birthdayNumber)
+	) {
+		age--;
+	}
+
+	return age;
+}

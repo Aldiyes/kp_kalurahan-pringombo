@@ -3,13 +3,13 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import LoadingPage from '@/components/loading';
-import { PengantarSkckForm } from '@/components/surat/pengantar-skck-form';
+import { SuketUsahaForm } from '@/components/surat/suket-usaha-form';
 
 type Props = {
 	children: React.ReactNode;
 };
 
-async function PengantarSkckLayout({ children }: Props) {
+export default async function SuketUsahaLayout({ children }: Props) {
 	const session = await auth();
 	if (!session) {
 		return redirect('/denied');
@@ -18,7 +18,7 @@ async function PengantarSkckLayout({ children }: Props) {
 	return (
 		<div className="px-1 md:px-6">
 			<div className="w-full p-2">
-				<PengantarSkckForm />
+				<SuketUsahaForm />
 			</div>
 			<div className="py-2 md:py-6 h-screen">
 				<Suspense fallback={<LoadingPage />}>{children}</Suspense>
@@ -26,5 +26,3 @@ async function PengantarSkckLayout({ children }: Props) {
 		</div>
 	);
 }
-
-export default PengantarSkckLayout;
