@@ -1,8 +1,12 @@
-import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
-import path from 'path';
+
+import { PrismaClient } from '@prisma/client';
+
 import { countAge } from '../lib/formats/count-age';
+import { db } from '@/lib/db';
+
 const prisma = new PrismaClient();
+
 async function upsertPenduduk(
 	nik: string,
 	nokk: string,
@@ -264,6 +268,7 @@ async function main() {
 				data_status_duk
 			);
 		}
+
 	} catch (err) {
 		console.error('[SEED_DATABASE]', err);
 	} finally {
