@@ -116,10 +116,10 @@ export const SidebarRoutes = () => {
 							</AccordionTrigger>
 							<AccordionContent className="flex flex-col space-y-2">
 								<Link
-									href="/informasi/berita"
+									href="/layanan/pengantar-skck"
 									className="pl-4 hover:text-sky-700"
 								>
-									Suket Usaha
+									Surat Pengantar SKCK
 								</Link>
 								<Link
 									href="/informasi/pengumuman"

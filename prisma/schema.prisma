@@ -34,13 +34,13 @@ model PasswordResetToken {
 }
 
 model Penduduk {
-  nik                  String    @id
+  nik                  String         @id
   nokk                 String?
   nama                 String
   alias                String?
   agama                String?
   jenis_kelamin        String?
-  kewarganegaraan      String    @default("Indonesia")
+  kewarganegaraan      String         @default("Indonesia")
   padukuhan            String?
   rt                   Int?
   rw                   Int?
@@ -55,6 +55,17 @@ model Penduduk {
   gol_darah            String?
   nama_ayah            String?
   nama_ibu             String?
-  jabatan_di_kalurahan String    @default("penduduk")
+  jabatan_di_kalurahan String         @default("penduduk")
   status_duk           String?
+  pengantar_skck       PengantarSKCK?
+}
+
+model PengantarSKCK {
+  no_surat   String   @id
+  pendudukId String   @unique
+  penduduk   Penduduk @relation(fields: [pendudukId], references: [nik])
+  keperluan  String?
+  doc_url    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
