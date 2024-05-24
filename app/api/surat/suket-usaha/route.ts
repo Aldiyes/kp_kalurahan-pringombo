@@ -93,10 +93,13 @@ export async function POST(req: NextRequest) {
 		};
 
 		console.log('SUKET USAHA URL', process.env.SUKET_USAHA_URL);
-		const postToDrive = await fetch(`${process.env.SUKET_USAHA_URL}`, {
-			method: 'POST',
-			body: JSON.stringify(data),
-		});
+		const postToDrive = await fetch(
+			`https://script.google.com/macros/s/AKfycbyVRk2yqeLrtyhyPL7qtpGyxjbMx_AJZWsKmUp2OX2QaNyzJ9yLcwcGRZwjVWL-ZTUMXQ/exec`,
+			{
+				method: 'POST',
+				body: JSON.stringify(data),
+			}
+		);
 
 		const viewUrl = await postToDrive.text();
 		const createSuketUsaha = await db.suketUsaha.create({
