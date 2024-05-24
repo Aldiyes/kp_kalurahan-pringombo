@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
 			nama_lurah: 'ALDIYES PASKALIS BIRTA',
 		};
 
+		console.log('SUKET USAHA URL', process.env.SUKET_USAHA_URL);
 		const postToDrive = await fetch(`${process.env.SUKET_USAHA_URL}`, {
 			method: 'POST',
 			body: JSON.stringify(data),
