@@ -20,17 +20,13 @@ export const getAllPengantarSkck = async () => {
 		}
 	);
 	if (!res.ok) {
-		throw Error(`Error with status code: ${res.status}`);
+		console.log(`Error with status code: ${res.status}`);
 	}
 
 	return res.json();
 };
 
-export const createPengantarSkck = async (
-	nik: string,
-	no_surat: string,
-	keperluan: string
-) => {
+export const createPengantarSkck = async (values: any) => {
 	const cookie = await headers().get('Cookie');
 	const headerList = new Headers();
 
@@ -40,17 +36,11 @@ export const createPengantarSkck = async (
 		headerList.append('Cookie', cookie);
 	}
 
-	const dataDb = {
-		no_surat: no_surat,
-		pendudukId: nik,
-		keperluan: keperluan,
-	};
-
 	const res = await fetch(
 		`${process.env.NEXT_APP_DOMAIN}/api/surat/pengantar-skck`,
 		{
 			method: 'POST',
-			body: JSON.stringify(dataDb),
+			body: JSON.stringify(values),
 			headers: headerList,
 		}
 	);
@@ -60,30 +50,6 @@ export const createPengantarSkck = async (
 	}
 
 	revalidateTag('pengantar-skck');
-
-	return res.json();
-};
-
-export const getSuratByNoSurat = async (no_surat: string) => {
-	const cookie = await headers().get('Cookie');
-	const headerList = new Headers();
-
-	if (cookie) {
-		headerList.append('Cookie', cookie);
-	}
-	const res = await fetch(
-		`${process.env.NEXT_APP_DOMAIN}/api/surat/pengantar-skck/${no_surat}`,
-		{
-			cache: 'no-store',
-			next: {
-				tags: ['surat', 'pengantar-skck'],
-			},
-			headers: headerList,
-		}
-	);
-	if (!res.ok) {
-		throw Error(`Error with status code: ${res.status}`);
-	}
 
 	return res.json();
 };

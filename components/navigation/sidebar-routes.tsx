@@ -127,16 +127,10 @@ export const SidebarRoutes = () => {
 								>
 									Suket Keterangan Usaha
 								</Link>
-								<Link
-									href="/informasi/agenda-kegiatan"
-									className="pl-4 hover:text-sky-700"
-								>
-									Surat ...
+								<Link href="/layanan/sktm" className="pl-4 hover:text-sky-700">
+									SKTM
 								</Link>
-								<Link
-									href="/informasi/galeri"
-									className="pl-4 hover:text-sky-700"
-								>
+								<Link href="/layanan/#" className="pl-4 hover:text-sky-700">
 									Surat ...
 								</Link>
 							</AccordionContent>

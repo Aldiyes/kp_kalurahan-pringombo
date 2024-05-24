@@ -19,9 +19,9 @@ export const getAllSuketUsaha = async () => {
 			headers: headerList,
 		}
 	);
-	// if (!res.ok) {
-	// 	throw Error(`Error with status code: ${res.status}`);
-	// }
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
 	return res.json();
 };
@@ -50,30 +50,6 @@ export const createSuketUsaha = async (values: any) => {
 	}
 
 	revalidateTag('suket-usaha');
-
-	return res.json();
-};
-
-export const getSuratByNoSurat = async (no_surat: string) => {
-	const cookie = await headers().get('Cookie');
-	const headerList = new Headers();
-
-	if (cookie) {
-		headerList.append('Cookie', cookie);
-	}
-	const res = await fetch(
-		`${process.env.NEXT_APP_DOMAIN}/api/surat/suket-usaha/${no_surat}`,
-		{
-			cache: 'no-store',
-			next: {
-				tags: ['surat', 'pengantar-skck'],
-			},
-			headers: headerList,
-		}
-	);
-	if (!res.ok) {
-		throw Error(`Error with status code: ${res.status}`);
-	}
 
 	return res.json();
 };

@@ -20,10 +20,12 @@ export const getAllPenduduk = async () => {
 		},
 		headers: headerList,
 	});
-	if (!res.ok) {
-		throw Error(`Error with status code: ${res.status}`);
-	}
 
+	if (!res.ok) {
+		console.log(
+			`Error with status code: ${res.status},  message: ${res.statusText}`
+		);
+	}
 	return res.json();
 };
 
@@ -45,7 +47,7 @@ export const getPendudukById = async (nik: string) => {
 		}
 	);
 	if (!res.ok) {
-		throw Error(`Error with status code: ${res.status}`);
+		console.log(`Error with status code: ${res.status}`);
 	}
 
 	return res.json();

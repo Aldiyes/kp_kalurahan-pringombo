@@ -27,15 +27,13 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { createPengantarSkck } from '@/actions/surat/pengantar-skck';
-import Link from 'next/link';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { IoMdArrowRoundBack } from 'react-icons/io';
 import * as z from 'zod';
 
 const formSchema = z.object({
-	nik: z.string().min(1),
+	pendudukId: z.string().min(1),
 	no_surat: z.string().min(1),
 	keperluan: z.string().min(1),
 });
@@ -46,14 +44,11 @@ export const PengantarSkckForm = () => {
 	const pathname = usePathname();
 
 	const isSuratPage = pathname.split('/').length > 3;
-	const isSuratIdPage = pathname.split('/').length === 5;
-	const nik = isSuratIdPage && pathname.split('/').at(-2);
-	const back = pathname.split('/').slice(0, -1).join('/');
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			nik: nik ? atob(nik) : '',
+			pendudukId: '',
 			no_surat: '',
 			keperluan: '',
 		},
@@ -63,20 +58,18 @@ export const PengantarSkckForm = () => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			values.nik = btoa(values.nik);
+			values.pendudukId = btoa(values.pendudukId);
 			values.no_surat = btoa(values.no_surat);
 			values.keperluan = values.keperluan.toUpperCase();
 			startTransition(() => {
-				createPengantarSkck(values.nik, values.no_surat, values.keperluan).then(
-					(response) => {
-						if (response.data === null) {
-							toast.error(response.message);
-						} else {
-							toast.success(response.message);
-							router.refresh();
-						}
+				createPengantarSkck(values).then((response) => {
+					if (response.data === null) {
+						toast.error(response.message);
+					} else {
+						toast.success(response.message);
+						router.refresh();
 					}
-				);
+				});
 			});
 		} catch (err: any) {
 			toast.error(err.response.data);
@@ -85,12 +78,7 @@ export const PengantarSkckForm = () => {
 	return (
 		<nav className="w-full flex justify-between items-center">
 			<>
-				<Link href={isSuratIdPage ? '/print/pengantar-skck' : `${back}`}>
-					<Button variant="ghost">
-						<IoMdArrowRoundBack className="h-4 w-4 mr-2" />
-						Kembali
-					</Button>
-				</Link>
+				<h1 className="font-bold text-xl text-sky-700">SURAT PENGANTAR SKCK</h1>
 				{!isSuratPage && (
 					<AlertDialog>
 						<AlertDialogTrigger
@@ -124,10 +112,10 @@ export const PengantarSkckForm = () => {
 												</FormItem>
 											)}
 										/>
-										<FormLabel className="text-start">NIK</FormLabel>
+										<FormLabel className="text-start">PENDUDUKID</FormLabel>
 										<FormField
 											control={form.control}
-											name="nik"
+											name="pendudukId"
 											render={({ field }) => (
 												<FormItem>
 													<FormControl>

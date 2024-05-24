@@ -20,7 +20,7 @@ async function ListNoSurat({ nik, no_surat, nama_surat }: Props) {
 	const surat = suratByNoSurat.data;
 
 	return (
-		<Link href={`${surat.doc_url}`}>
+		<Link href={`${surat.doc_url}`} target="_blank">
 			<Card className="w-fit p-2 cursor-pointer hover:bg-sky-200/20">
 				<div className="w-32 inline-block flex-col items-center justify-center break-words">
 					<div className="w-full flex items-center justify-center">

@@ -6,6 +6,8 @@ import { countAgeByDate } from '@/lib/formats/count-age';
 import { FormatTitleString } from '@/lib/formats/format-title-string';
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
+const SURAT_KETERANGAN_USAHA_URL = process.env.SUKET_USAHA_URL;
+
 export async function GET(req: NextRequest) {
 	const session = await auth();
 	if (!session) {
@@ -64,7 +66,26 @@ export async function POST(req: NextRequest) {
 				{ status: 404 }
 			);
 
+		const suketUsahaExists = await db.suketUsaha.findUnique({
+			where: {
+				no_surat: values.no_surat,
+			},
+		});
+
+		if (suketUsahaExists) {
+			return NextResponse.json({
+				data: null,
+				message: 'Nomor Surat Sudah Ada',
+			});
+		}
+
 		const tanggalSurat = timeZoneFormatString(new Date());
+
+		const lurah = await db.penduduk.findFirst({
+			where: {
+				jabatan_di_kalurahan: 'LURAH',
+			},
+		});
 
 		const data = {
 			no_surat: atob(values.no_surat),
@@ -89,29 +110,24 @@ export async function POST(req: NextRequest) {
 			di_kapanewon: values.di_kapanewon,
 			di_kabupaten: values.di_kabupaten,
 			tanggal_surat: tanggalSurat,
-			nama_lurah: 'ALDIYES PASKALIS BIRTA',
+			nama_lurah: lurah?.nama,
 		};
 
-		console.log('SUKET USAHA URL', process.env.SUKET_USAHA_URL);
-		const postToDrive = await fetch(
-			`https://script.google.com/macros/s/AKfycbyVRk2yqeLrtyhyPL7qtpGyxjbMx_AJZWsKmUp2OX2QaNyzJ9yLcwcGRZwjVWL-ZTUMXQ/exec`,
-			{
-				method: 'POST',
-				body: JSON.stringify(data),
-			}
-		);
+		const postToDrive = await fetch(`${SURAT_KETERANGAN_USAHA_URL}`, {
+			method: 'POST',
+			body: JSON.stringify(data),
+		});
 
 		const viewUrl = await postToDrive.text();
-		const createSuketUsaha = await db.suketUsaha.create({
+		const createSurat = await db.suketUsaha.create({
 			data: {
-				// pendudukId: values.nik,
 				doc_url: viewUrl,
 				...values,
 			},
 		});
 
 		return NextResponse.json(
-			{ data: createSuketUsaha, message: 'Success' },
+			{ data: createSurat, message: 'Sukses Membuat Surat' },
 			{ status: 200 }
 		);
 	} catch (error) {
