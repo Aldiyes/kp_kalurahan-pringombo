@@ -5,6 +5,8 @@ import { db } from '@/lib/db';
 import { FormatTitleString } from '@/lib/formats/format-title-string';
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
+const SURAT_PENGANTAR_SKCK_URL = process.env.PENGANTAR_SKCK_URL;
+
 export async function GET(req: NextRequest) {
 	const session = await auth();
 	if (!session) {
@@ -89,13 +91,10 @@ export async function POST(req: NextRequest) {
 			nama_lurah: 'ALDIYES PASKALIS BIRTA',
 		};
 
-		const postToDrive = await fetch(
-			`https://script.google.com/macros/s/AKfycbyICVGqjBWAFn2FENXLXECagOoqqrqjn-k7UPlqopV3kiBoIXtu9x0bLGT1zqm0sKJQ/exec`,
-			{
-				method: 'POST',
-				body: JSON.stringify(data),
-			}
-		);
+		const postToDrive = await fetch(`${SURAT_PENGANTAR_SKCK_URL}`, {
+			method: 'POST',
+			body: JSON.stringify(data),
+		});
 
 		const viewUrl = await postToDrive.text();
 
