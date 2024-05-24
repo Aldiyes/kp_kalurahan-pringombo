@@ -1,5 +1,4 @@
 'use server';
-
 import { revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
 
@@ -13,12 +12,12 @@ export const getAllSktm = async () => {
 	const res = await fetch(`${process.env.NEXT_APP_DOMAIN}/api/surat/sktm`, {
 		cache: 'no-store',
 		next: {
-			tags: ['surat', 'pengantar-skck'],
+			tags: ['surat', 'sktm'],
 		},
 		headers: headerList,
 	});
 	if (!res.ok) {
-		console.log(`Error with status code: ${res.status}`);
+		throw Error(`Error with status code: ${res.status}`);
 	}
 
 	return res.json();
@@ -34,19 +33,17 @@ export const createSktm = async (values: any) => {
 		headerList.append('Cookie', cookie);
 	}
 
-	console.log(values);
+	const res = await fetch(`${process.env.NEXT_APP_DOMAIN}/api/surat/sktm`, {
+		method: 'POST',
+		body: JSON.stringify(values),
+		headers: headerList,
+	});
 
-	// const res = await fetch(`${process.env.NEXT_APP_DOMAIN}/api/surat/sktm`, {
-	// 	method: 'POST',
-	// 	body: JSON.stringify(values),
-	// 	headers: headerList,
-	// });
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
-	// if (!res.ok) {
-	// 	throw Error(`Error with status code: ${res.status}`);
-	// }
+	revalidateTag('sktm');
 
-	// revalidateTag('suket-usaha');
-
-	// return res.json();
+	return res.json();
 };

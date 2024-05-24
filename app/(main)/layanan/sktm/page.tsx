@@ -1,4 +1,5 @@
 import { getAllSktm } from '@/actions/surat/sktm';
+
 import { ListsSurat } from '@/components/surat/lists-surat';
 
 export default async function SktmPage() {
@@ -14,9 +15,9 @@ export default async function SktmPage() {
 			{dataSurat?.map((surat: any) => (
 				<ListsSurat
 					key={surat.no_surat}
-					nik={surat.pendudukId}
+					nik={surat.nik_anak}
 					no_surat={surat.no_surat}
-					nama_surat="suket-usaha"
+					nama_surat="sktm"
 				/>
 			))}
 		</div>

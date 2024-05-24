@@ -1,6 +1,15 @@
 'use client';
 
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+
+import toast from 'react-hot-toast';
+import { BsFileEarmarkPdf } from 'react-icons/bs';
+
 import { deleteSuratById } from '@/actions/surat/surat';
+
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
 	Dialog,
@@ -11,12 +20,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
-import toast from 'react-hot-toast';
-import { BsFileEarmarkPdf } from 'react-icons/bs';
-import { Button } from '../ui/button';
 
 type Props = {
 	no_surat: string;

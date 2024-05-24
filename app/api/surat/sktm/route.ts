@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
+import { countAgeByDate } from '@/lib/formats/count-age';
 import { FormatTitleString } from '@/lib/formats/format-title-string';
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
-const SKTM_URL = process.env.SKTM_URL;
+const SURAT_KETERANGAN_TIDAK_MAMPU_URL = process.env.SKTM_URL;
 
 export async function GET(req: NextRequest) {
 	const session = await auth();
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
 
 		if (!surat) {
 			return NextResponse.json(
-				{ data: null, message: 'Pengantar SKCK not found' },
+				{ data: null, message: 'Surat Keterangan Tidak Mampu Tidak Ditemukan' },
 				{ status: 404 }
 			);
 		}
@@ -53,46 +54,44 @@ export async function POST(req: NextRequest) {
 	try {
 		const values = await req.json();
 
-		const dataPerson = await db.penduduk.findUnique({
+		const dataAnak = await db.penduduk.findUnique({
 			where: {
-				nik: values.pendudukId,
+				nik: values.nik_anak,
 			},
 		});
 
-		if (!dataPerson)
+		if (!dataAnak)
 			return NextResponse.json(
-				{ data: null, message: 'Penduduk not found' },
+				{ data: null, message: 'NIK Anak Tidak Ditemukan' },
 				{ status: 404 }
 			);
 
-		const pengantarSkckExists = await db.pengantarSKCK.findUnique({
+		const dataOrtu = await db.penduduk.findUnique({
+			where: {
+				nik: values.nik_ortu,
+			},
+		});
+
+		if (!dataOrtu)
+			return NextResponse.json(
+				{ data: null, message: 'NIK Orangtua Tidak Ditemukan' },
+				{ status: 404 }
+			);
+
+		const sktmExists = await db.sKTM.findUnique({
 			where: {
 				no_surat: values.no_surat,
 			},
 		});
 
-		if (pengantarSkckExists) {
+		if (sktmExists) {
 			return NextResponse.json({
 				data: null,
 				message: 'Nomor Surat Sudah Ada',
 			});
 		}
 
-		const pengantarSkckOwner = await db.penduduk.findFirst({
-			where: {
-				nik: values.pendudukId,
-			},
-			include: {
-				pengantar_skck: true,
-			},
-		});
-
-		if (pengantarSkckOwner) {
-			return NextResponse.json({
-				data: null,
-				message: 'Sudah memiliki surat pengantar SKCK',
-			});
-		}
+		const tanggalSurat = timeZoneFormatString(new Date());
 
 		const lurah = await db.penduduk.findFirst({
 			where: {
@@ -100,50 +99,54 @@ export async function POST(req: NextRequest) {
 			},
 		});
 
-		const tanggalSurat = timeZoneFormatString(new Date());
-
 		const data = {
 			no_surat: atob(values.no_surat),
-			nama_lengkap: dataPerson.nama,
-			nik: atob(dataPerson.nik),
-			no_kk: dataPerson.nokk ? atob(dataPerson.nokk) : '-',
-			tempat_lahir: dataPerson.tempat_lahir ? dataPerson.tempat_lahir : '-',
-			tanggal_lahir: dataPerson.tanggal_lahir
-				? timeZoneFormatString(dataPerson.tanggal_lahir)
+			nama_lengkap: dataAnak.nama,
+			nik: atob(dataAnak.nik),
+			tempat_lahir: dataAnak.tempat_lahir ? dataAnak.tempat_lahir : '-',
+			tanggal_lahir: dataAnak.tanggal_lahir
+				? timeZoneFormatString(dataAnak.tanggal_lahir)
 				: '-',
-			jenis_kelamin: dataPerson.jenis_kelamin ? dataPerson.jenis_kelamin : '-',
-			kewarganegaraan: dataPerson.kewarganegaraan,
-			agama: dataPerson.agama ? dataPerson.agama : '-',
-			pekerjaan: dataPerson.pekerjaan ? dataPerson.pekerjaan : '-',
-			pendidikan: dataPerson.pendidikan_kk ? dataPerson.pendidikan_kk : '-',
-			keperluan: values.keperluan,
-			rt: dataPerson.rt,
-			rw: dataPerson.rw,
-			padukuhan: dataPerson.padukuhan
-				? FormatTitleString(dataPerson.padukuhan)
+			jenis_kelamin: dataAnak.jenis_kelamin ? dataAnak.jenis_kelamin : '-',
+			nama_instansi: values.nama_instansi ? values.nama_instansi : '-',
+			fakultas_prodi: values.fakultas_prodi ? values.fakultas_prodi : '-',
+			kelas_semester: values.kelas_semester ? values.kelas_semester : '-',
+			nama_ortu: dataOrtu.nama,
+			nik_ortu: atob(dataOrtu.nik),
+			no_kk: dataOrtu.nokk ? atob(dataOrtu.nokk) : '-',
+			tempat_lahir_ortu: dataOrtu.tempat_lahir,
+			tanggal_lahir_ortu: dataOrtu.tanggal_lahir
+				? timeZoneFormatString(dataOrtu.tanggal_lahir)
+				: '-',
+			jenis_kelamin_ortu: dataOrtu.jenis_kelamin ? dataOrtu.jenis_kelamin : '-',
+			status_kawin: dataOrtu.status_kawin ? dataOrtu.status_kawin : '-',
+			pekerjaan: dataOrtu.pekerjaan ? dataOrtu.pekerjaan : '-',
+			pendidikan_kk: dataOrtu.pendidikan_kk ? dataOrtu.pendidikan_kk : '-',
+			agama_ortu: dataOrtu.agama ? dataOrtu.agama : '-',
+			rt: dataOrtu.rt ? dataOrtu.rt : '-',
+			rw: dataOrtu.rw ? dataOrtu.rw : '-',
+			padukuhan: dataOrtu.padukuhan
+				? FormatTitleString(dataOrtu.padukuhan)
 				: '-',
 			tanggal_surat: tanggalSurat,
 			nama_lurah: lurah?.nama,
 		};
 
-		const postToDrive = await fetch(`${SKTM_URL}`, {
+		const postToDrive = await fetch(`${SURAT_KETERANGAN_TIDAK_MAMPU_URL}`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 		});
 
-		const viewUrl = await postToDrive.text();
-
-		const createPengantarSkck = await db.pengantarSKCK.create({
+		const getDocId = await postToDrive.text();
+		const createSurat = await db.sKTM.create({
 			data: {
-				no_surat: values.no_surat,
-				pendudukId: values.pendudukId,
-				keperluan: values.keperluan,
-				doc_url: viewUrl,
+				doc_id: getDocId,
+				...values,
 			},
 		});
 
 		return NextResponse.json(
-			{ data: createPengantarSkck, message: 'Success' },
+			{ data: createSurat, message: 'Berhasil Membuat Surat' },
 			{ status: 200 }
 		);
 	} catch (error) {
