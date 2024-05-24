@@ -68,7 +68,7 @@ model PengantarSKCK {
   pendudukId String   @unique
   penduduk   Penduduk @relation(fields: [pendudukId], references: [nik])
   keperluan  String?
-  doc_url    String?
+  doc_id     String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -79,7 +79,7 @@ model SuketUsaha {
   di_kalurahan    String?
   di_kapanewon    String?
   di_kabupaten    String?
-  doc_url         String?
+  doc_id          String?
   pendudukId      String
   penduduk        Penduduk @relation(fields: [pendudukId], references: [nik])
   createdAt       DateTime @default(now())

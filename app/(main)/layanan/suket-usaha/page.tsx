@@ -1,6 +1,6 @@
 import { getAllSuketUsaha } from '@/actions/surat/suekt-usaha';
 
-import ListNoSurat from '@/components/surat/list-no-surat';
+import { ListsSurat } from '@/components/surat/lists-surat';
 
 export default async function SuketUsahaPage() {
 	const surat = await getAllSuketUsaha();
@@ -13,7 +13,7 @@ export default async function SuketUsahaPage() {
 				</h1>
 			)}
 			{dataSurat?.map((surat: any) => (
-				<ListNoSurat
+				<ListsSurat
 					key={surat.no_surat}
 					nik={surat.pendudukId}
 					no_surat={surat.no_surat}
