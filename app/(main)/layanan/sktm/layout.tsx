@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import LoadingPage from '@/components/loading';
-import { SuketUsahaForm } from '@/components/surat/form/suket-usaha-form';
+import { SktmForm } from '@/components/surat/form/sktm-form';
 
 type Props = {
 	children: React.ReactNode;
@@ -18,7 +18,7 @@ export default async function SktmLayout({ children }: Props) {
 	return (
 		<div className="px-1 md:px-6">
 			<div className="w-full p-2">
-				<SuketUsahaForm />
+				<SktmForm />
 			</div>
 			<div className="py-2 md:py-6 h-screen">
 				<Suspense fallback={<LoadingPage />}>{children}</Suspense>

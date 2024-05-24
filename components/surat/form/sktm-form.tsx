@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
 
-import { createSuketUsaha } from '@/actions/surat/suket-usaha';
+import { createSktm } from '@/actions/surat/sktm';
 
 import {
 	AlertDialog,
@@ -31,14 +31,14 @@ import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
 	no_surat: z.string().min(1),
-	pendudukId: z.string().min(1),
-	usaha_sampingan: z.string().min(1),
-	di_kalurahan: z.string().min(1),
-	di_kapanewon: z.string().min(1),
-	di_kabupaten: z.string().min(1),
+	nik_ortu: z.string().min(1),
+	nik_anak: z.string().min(1),
+	nama_instansi: z.string().min(1),
+	fakultas_prodi: z.string(),
+	kelas_semester: z.coerce.number().min(1),
 });
 
-export const SuketUsahaForm = () => {
+export const SktmForm = () => {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 
@@ -46,11 +46,11 @@ export const SuketUsahaForm = () => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			no_surat: '',
-			pendudukId: '',
-			usaha_sampingan: '',
-			di_kalurahan: '',
-			di_kapanewon: '',
-			di_kabupaten: '',
+			nik_ortu: '',
+			nik_anak: '',
+			nama_instansi: '',
+			fakultas_prodi: '',
+			kelas_semester: undefined,
 		},
 	});
 
@@ -58,14 +58,14 @@ export const SuketUsahaForm = () => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			values.pendudukId = btoa(values.pendudukId);
 			values.no_surat = btoa(values.no_surat);
-			values.usaha_sampingan = values.usaha_sampingan.toUpperCase();
-			values.di_kalurahan = values.di_kalurahan.toUpperCase();
-			values.di_kapanewon = values.di_kapanewon.toUpperCase();
-			values.di_kabupaten = values.di_kabupaten.toUpperCase();
+			values.nik_ortu = btoa(values.nik_ortu);
+			values.nik_anak = btoa(values.nik_anak);
+			values.nama_instansi = values.nama_instansi.toUpperCase();
+			values.fakultas_prodi = values.fakultas_prodi.toUpperCase();
+			values.kelas_semester = values.kelas_semester;
 			startTransition(() => {
-				createSuketUsaha(values).then((response) => {
+				createSktm(values).then((response) => {
 					if (response.data === null) {
 						toast.error(response.message);
 					} else {
@@ -82,41 +82,22 @@ export const SuketUsahaForm = () => {
 		<nav className="w-full flex justify-between items-center">
 			<>
 				<h1 className="font-bold text-xl text-sky-700">
-					SURAT KETERANGAN USAHA
+					SURAT KETERANGAN TIDAK MAMPU
 				</h1>
-
 				<AlertDialog>
 					<AlertDialogTrigger
 						className="bg-black text-white p-2 rounded-lg font-[500] px-4"
 						onClick={() => router.refresh()}
 					>
-						Buat Suart
+						Buat Surat
 					</AlertDialogTrigger>
 					<AlertDialogContent>
 						<Form {...form}>
 							<form onSubmit={form.handleSubmit(onSubmit)}>
 								<AlertDialogHeader>
 									<AlertDialogTitle className="text-center">
-										Buat Suket Usaha
+										Buat SKTM
 									</AlertDialogTitle>
-									<FormLabel className="text-start">NIK</FormLabel>
-									<FormField
-										control={form.control}
-										name="pendudukId"
-										render={({ field }) => (
-											<FormItem>
-												<FormControl>
-													<Input
-														className="mb-5"
-														disabled={isSubmitting}
-														placeholder="34**************"
-														{...field}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
 									<FormLabel className="text-start">Nomor Surat</FormLabel>
 									<FormField
 										control={form.control}
@@ -135,17 +116,17 @@ export const SuketUsahaForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">Usaha Sampingan</FormLabel>
+									<FormLabel className="text-start">NIK Orangtua</FormLabel>
 									<FormField
 										control={form.control}
-										name="usaha_sampingan"
+										name="nik_ortu"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="Petani"
+														placeholder="34**************"
 														{...field}
 													/>
 												</FormControl>
@@ -153,17 +134,17 @@ export const SuketUsahaForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">Di Kalurahan</FormLabel>
+									<FormLabel className="text-start">NIK Anak</FormLabel>
 									<FormField
 										control={form.control}
-										name="di_kalurahan"
+										name="nik_anak"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="Pringombo"
+														placeholder="34**************"
 														{...field}
 													/>
 												</FormControl>
@@ -171,17 +152,17 @@ export const SuketUsahaForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">Di Kapanewon</FormLabel>
+									<FormLabel className="text-start">Nama Instansi</FormLabel>
 									<FormField
 										control={form.control}
-										name="di_kapanewon"
+										name="nama_instansi"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="Rongkop"
+														placeholder="Nama sekolah / univ"
 														{...field}
 													/>
 												</FormControl>
@@ -189,17 +170,35 @@ export const SuketUsahaForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">Di Kabupaten</FormLabel>
+									<FormLabel className="text-start">Fakultas/Prodi</FormLabel>
 									<FormField
 										control={form.control}
-										name="di_kabupaten"
+										name="fakultas_prodi"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="Gunungkidul"
+														placeholder="Fakultas/Prodi (jika ada)"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormLabel className="text-start">Kelas/Semester</FormLabel>
+									<FormField
+										control={form.control}
+										name="kelas_semester"
+										render={({ field }) => (
+											<FormItem>
+												<FormControl>
+													<Input
+														className="mb-5"
+														disabled={isSubmitting}
+														placeholder="Masukan Angka"
 														{...field}
 													/>
 												</FormControl>
@@ -212,7 +211,7 @@ export const SuketUsahaForm = () => {
 									<AlertDialogCancel>Batal</AlertDialogCancel>
 									<AlertDialogAction
 										type="submit"
-										disabled={!isValid || isSubmitting || isPending}
+										disabled={!isValid || isSubmitting}
 									>
 										Buat surat
 									</AlertDialogAction>

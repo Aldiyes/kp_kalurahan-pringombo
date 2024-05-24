@@ -1,9 +1,9 @@
-import { getAllSuketUsaha } from '@/actions/surat/suket-usaha';
+import { getAllSktm } from '@/actions/surat/sktm';
 
 import { ListsSurat } from '@/components/surat/lists-surat';
 
 export default async function SktmPage() {
-	const surat = await getAllSuketUsaha();
+	const surat = await getAllSktm();
 	const dataSurat = surat.data;
 	return (
 		<div className="flex flex-wrap gap-2">
@@ -15,9 +15,9 @@ export default async function SktmPage() {
 			{dataSurat?.map((surat: any) => (
 				<ListsSurat
 					key={surat.no_surat}
-					nik={surat.pendudukId}
+					nik={surat.nik_anak}
 					no_surat={surat.no_surat}
-					nama_surat="suket-usaha"
+					nama_surat="sktm"
 				/>
 			))}
 		</div>
