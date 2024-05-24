@@ -1,4 +1,4 @@
-import { getAllSuketUsaha } from '@/actions/surat/suekt-usaha';
+import { getAllSuketUsaha } from '@/actions/surat/suket-usaha';
 
 import { ListsSurat } from '@/components/surat/lists-surat';
 

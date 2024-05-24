@@ -8,9 +8,11 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
 
+import { Penduduk } from '@prisma/client';
 import { Pencil } from 'lucide-react';
 
 import { editDataPenduduk } from '@/actions/penduduk/penduduk-actions';
+
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -20,7 +22,6 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Penduduk } from '@prisma/client';
 
 interface Props {
 	initialData: Penduduk;

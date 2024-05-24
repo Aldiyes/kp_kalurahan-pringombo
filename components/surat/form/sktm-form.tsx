@@ -1,14 +1,13 @@
 'use client';
 
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import * as z from 'zod';
+
+import { createSuketUsaha } from '@/actions/surat/suket-usaha';
 
 import {
 	AlertDialog,
@@ -20,19 +19,15 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { usePathname, useRouter } from 'next/navigation';
-
-import { Button } from '@/components/ui/button';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { createSuketUsaha } from '@/actions/surat/suekt-usaha';
-import Link from 'next/link';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import { IoMdArrowRoundBack } from 'react-icons/io';
-import * as z from 'zod';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
 	no_surat: z.string().min(1),
@@ -46,17 +41,12 @@ const formSchema = z.object({
 export const SuketUsahaForm = () => {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
-	const pathname = usePathname();
-
-	const isSuratIdPage = pathname.split('/').length === 5;
-	const pendudukId = isSuratIdPage && pathname.split('/').at(-2);
-	const back = pathname.split('/').slice(0, -1).join('/');
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			no_surat: '',
-			pendudukId: pendudukId ? atob(pendudukId) : '',
+			pendudukId: '',
 			usaha_sampingan: '',
 			di_kalurahan: '',
 			di_kapanewon: '',
@@ -118,7 +108,7 @@ export const SuketUsahaForm = () => {
 												<FormControl>
 													<Input
 														className="mb-5"
-														disabled={isSubmitting || pendudukId != false}
+														disabled={isSubmitting}
 														placeholder="34**************"
 														{...field}
 													/>

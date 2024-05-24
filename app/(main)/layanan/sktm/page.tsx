@@ -1,8 +1,9 @@
-import { getAllSktm } from '@/actions/surat/sktm';
+import { getAllSuketUsaha } from '@/actions/surat/suket-usaha';
+
 import { ListsSurat } from '@/components/surat/lists-surat';
 
 export default async function SktmPage() {
-	const surat = await getAllSktm();
+	const surat = await getAllSuketUsaha();
 	const dataSurat = surat.data;
 	return (
 		<div className="flex flex-wrap gap-2">
