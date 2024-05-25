@@ -103,39 +103,38 @@ export async function POST(req: NextRequest) {
 			},
 		});
 
-		// const data = {
-		// 	no_surat: atob(values.no_surat),
-		// 	nama_lengkap: dataPerson.nama,
-		// 	nik: atob(dataPerson.nik),
-		// 	tempat_lahir: dataPerson.tempat_lahir ? dataPerson.tempat_lahir : '-',
-		// 	tanggal_lahir: dataPerson.tanggal_lahir
-		// 		? timeZoneFormatString(dataPerson.tanggal_lahir)
-		// 		: '-',
-		// 	agama: dataPerson.agama ? dataPerson.agama : '-',
-		// 	pekerjaan: dataPerson.pekerjaan ? dataPerson.pekerjaan : '-',
-		// 	rt: dataPerson.rt,
-		// 	rw: dataPerson.rw,
-		// 	padukuhan: dataPerson.padukuhan
-		// 		? FormatTitleString(dataPerson.padukuhan)
-		// 		: '-',
-		// 	lokasi_meninggal: values.lokasi_meninggal,
-		// 	tanggal_kematian: timeZoneFormatString(tanggalKematian),
-		// 	anak_ke: values.anak_ke,
-		// 	nama_ayah: dataPerson.nama_ayah ? dataPerson.nama_ayah : '-',
-		// 	nama_ibu: dataPerson.nama_ibu ? dataPerson.nama_ibu : '-',
-		// 	tanggal_surat: tanggalSurat,
-		// 	nama_lurah: lurah?.nama,
-		// };
+		const data = {
+			no_surat: atob(values.no_surat),
+			nama_lengkap: dataPerson.nama,
+			nik: atob(dataPerson.nik),
+			tempat_lahir: dataPerson.tempat_lahir ? dataPerson.tempat_lahir : '-',
+			tanggal_lahir: dataPerson.tanggal_lahir
+				? timeZoneFormatString(dataPerson.tanggal_lahir)
+				: '-',
+			agama: dataPerson.agama ? dataPerson.agama : '-',
+			pekerjaan: dataPerson.pekerjaan ? dataPerson.pekerjaan : '-',
+			rt: dataPerson.rt,
+			rw: dataPerson.rw,
+			padukuhan: dataPerson.padukuhan
+				? FormatTitleString(dataPerson.padukuhan)
+				: '-',
+			lokasi_meninggal: values.lokasi_meninggal,
+			tanggal_kematian: timeZoneFormatString(tanggalKematian),
+			anak_ke: values.anak_ke,
+			nama_ayah: dataPerson.nama_ayah ? dataPerson.nama_ayah : '-',
+			nama_ibu: dataPerson.nama_ibu ? dataPerson.nama_ibu : '-',
+			tanggal_surat: tanggalSurat,
+			nama_lurah: lurah?.nama,
+		};
 
-		// const postToDrive = await fetch(`${SURAT_KETERANGAN_KEMATIAN_URL}`, {
-		// 	method: 'POST',
-		// 	body: JSON.stringify(data),
-		// });
+		const postToDrive = await fetch(`${SURAT_KETERANGAN_KEMATIAN_URL}`, {
+			method: 'POST',
+			body: JSON.stringify(data),
+		});
 
-		// const getDocId = await postToDrive.text();
+		const getDocId = await postToDrive.text();
 
-		const getDocId = 'https://google.com';
-		console.log('[GET-GOOGLE-DOCS-ID] - ', getDocId);
+		console.log('[GET_GOOGLE_DOCS_ID] - ', getDocId);
 
 		const createSurat = await db.suketKematian.create({
 			data: {
