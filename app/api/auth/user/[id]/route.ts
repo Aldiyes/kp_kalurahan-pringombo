@@ -8,14 +8,6 @@ export async function GET(
 	{ params }: { params: { id: string } }
 ) {
 	try {
-		const session = await auth();
-		if (!session) {
-			return NextResponse.json(
-				{ data: null, message: 'Unautorized' },
-				{ status: 409 }
-			);
-		}
-
 		const existingUser = await db.user.findUnique({
 			where: {
 				id: params.id,
@@ -49,14 +41,6 @@ export async function DELETE(
 	{ params }: { params: { id: string } }
 ) {
 	try {
-		const session = await auth();
-		if (!session) {
-			return NextResponse.json(
-				{ data: null, message: 'Unautorized' },
-				{ status: 409 }
-			);
-		}
-
 		const existingUser = await db.user.findUnique({
 			where: {
 				id: params.id,

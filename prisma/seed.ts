@@ -2,8 +2,8 @@ import fs from 'fs';
 
 import { PrismaClient } from '@prisma/client';
 
+import bcrypt from 'bcryptjs';
 import { countAge } from '../lib/formats/count-age';
-import { db } from '@/lib/db';
 
 const prisma = new PrismaClient();
 
@@ -242,6 +242,12 @@ async function main() {
 				data_jabatan_di_kalurahan = 'DUKUH';
 			}
 
+			const values = {
+				email: 'kalurahanpringombo89@gmail.com',
+				password: 'KalurahanPringombo1911',
+				name: 'Pringombo',
+			};
+
 			await upsertPenduduk(
 				encryptNik,
 				data_nokk,
@@ -268,7 +274,6 @@ async function main() {
 				data_status_duk
 			);
 		}
-
 	} catch (err) {
 		console.error('[SEED_DATABASE]', err);
 	} finally {
