@@ -35,13 +35,13 @@ model PasswordResetToken {
 }
 
 model Penduduk {
-  nik                  String         @id
+  nik                  String          @id
   nokk                 String?
   nama                 String
   alias                String?
   agama                String?
   jenis_kelamin        String?
-  kewarganegaraan      String         @default("Indonesia")
+  kewarganegaraan      String          @default("Indonesia")
   padukuhan            String?
   rt                   Int?
   rw                   Int?
@@ -56,12 +56,13 @@ model Penduduk {
   gol_darah            String?
   nama_ayah            String?
   nama_ibu             String?
-  jabatan_di_kalurahan String         @default("penduduk")
+  jabatan_di_kalurahan String          @default("penduduk")
   status_duk           String?
   pengantar_skck       PengantarSKCK?
   SuketUsaha           SuketUsaha[]
   sktm                 SKTM[]
   suket_kematian       SuketKematian?
+  IzinKeramaian        IzinKeramaian[]
 }
 
 model PengantarSKCK {
@@ -110,4 +111,18 @@ model SuketKematian {
   doc_id           String?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
+}
+
+model IzinKeramaian {
+  no_surat            String    @id
+  pendudukId          String
+  jenis_keramaian     String?
+  keperluan_keramaian String?
+  tempat_keramaian    String?
+  waktu_keramaian     DateTime?
+  lama_keramaian      String?
+  doc_id              String?
+  penduduk            Penduduk  @relation(fields: [pendudukId], references: [nik])
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }
