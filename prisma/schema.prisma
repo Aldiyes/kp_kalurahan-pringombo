@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("PRINGOMBO_DB_PRISMA_URL")
-  // directUrl = env("PRINGOMBO_DB_URL_NON_POOLING")
+  directUrl = env("PRINGOMBO_DB_URL_NON_POOLING")
 }
 
 model User {
