@@ -125,7 +125,7 @@ export const SidebarRoutes = () => {
 									href="/layanan/suket-usaha"
 									className="pl-4 hover:text-sky-700"
 								>
-									Suket Keterangan Usaha
+									Surat Keterangan Usaha
 								</Link>
 								<Link href="/layanan/sktm" className="pl-4 hover:text-sky-700">
 									SKTM

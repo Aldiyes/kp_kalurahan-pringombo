@@ -75,7 +75,9 @@ function Actions({ nik }: Props) {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Batal</AlertDialogCancel>
-						<AlertDialogAction onClick={onDelete}>Hapus</AlertDialogAction>
+						<AlertDialogAction onClick={onDelete} disabled={isPending}>
+							Hapus
+						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>

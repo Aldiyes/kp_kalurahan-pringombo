@@ -114,3 +114,21 @@ export const editDataPenduduk = async (nik: string, value: any) => {
 	revalidateTag('edit-penduduk');
 	return res.json();
 };
+
+export const getPerangkatkalurahan = async () => {
+	const perangkatKalurahan = await db.penduduk.findMany({
+		where: {
+			jabatan_di_kalurahan: {
+				not: 'penduduk',
+			},
+		},
+	});
+
+	// console.log('[ACTION_PERANGKAT_KALURAHAN] - ', perangkatKalurahan);
+
+	if (!perangkatKalurahan) {
+		return null;
+	}
+
+	return perangkatKalurahan;
+};
