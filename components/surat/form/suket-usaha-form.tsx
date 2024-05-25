@@ -1,14 +1,13 @@
 'use client';
 
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import * as z from 'zod';
+
+import { createSuketUsaha } from '@/actions/surat/suket-usaha';
 
 import {
 	AlertDialog,
@@ -20,46 +19,38 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { usePathname, useRouter } from 'next/navigation';
-
-import { Button } from '@/components/ui/button';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { createPengantarSkck } from '@/actions/surat/pengantar-skck';
-import { createSktm } from '@/actions/surat/sktm';
-import Link from 'next/link';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import { IoMdArrowRoundBack } from 'react-icons/io';
-import * as z from 'zod';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
 	no_surat: z.string().min(1),
-	nik_ortu: z.string().min(1),
-	nik_anak: z.string().min(1),
-	nama_instansi: z.string().min(1),
-	fakultas_prodi: z.string(),
-	kelas_semester: z.coerce.number().min(1),
+	pendudukId: z.string().min(1),
+	usaha_sampingan: z.string().min(1),
+	di_kalurahan: z.string().min(1),
+	di_kapanewon: z.string().min(1),
+	di_kabupaten: z.string().min(1),
 });
 
-export const SktmForm = () => {
+export const SuketUsahaForm = () => {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
-	const pathname = usePathname();
-
-	const isSuratIdPage = pathname.split('/').length === 5;
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			no_surat: '',
-			nik_ortu: '',
-			nik_anak: '',
-			nama_instansi: '',
-			fakultas_prodi: '',
-			kelas_semester: undefined,
+			pendudukId: '',
+			usaha_sampingan: '',
+			di_kalurahan: '',
+			di_kapanewon: '',
+			di_kabupaten: '',
 		},
 	});
 
@@ -67,21 +58,20 @@ export const SktmForm = () => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			values.nik_ortu = btoa(values.nik_ortu);
-			values.nik_anak = btoa(values.nik_anak);
+			values.pendudukId = btoa(values.pendudukId);
 			values.no_surat = btoa(values.no_surat);
-			values.nama_instansi = values.nama_instansi.toUpperCase();
-			values.fakultas_prodi = values.fakultas_prodi.toUpperCase();
-			values.kelas_semester = values.kelas_semester;
+			values.usaha_sampingan = values.usaha_sampingan.toUpperCase();
+			values.di_kalurahan = values.di_kalurahan.toUpperCase();
+			values.di_kapanewon = values.di_kapanewon.toUpperCase();
+			values.di_kabupaten = values.di_kabupaten.toUpperCase();
 			startTransition(() => {
-				createSktm(values).then((response) => {
-					// if (response.data === null) {
-					// 	toast.error(response.message);
-					// } else {
-					// 	toast.success(response.message);
-					// 	router.refresh();
-					// }
-					console.log(values);
+				createSuketUsaha(values).then((response) => {
+					if (response.data === null) {
+						toast.error(response.message);
+					} else {
+						toast.success(response.message);
+						router.refresh();
+					}
 				});
 			});
 		} catch (err: any) {
@@ -92,7 +82,7 @@ export const SktmForm = () => {
 		<nav className="w-full flex justify-between items-center">
 			<>
 				<h1 className="font-bold text-xl text-sky-700">
-					SURAT KETERANGAN TIDAK MAMPU
+					SURAT KETERANGAN USAHA
 				</h1>
 
 				<AlertDialog>
@@ -100,15 +90,33 @@ export const SktmForm = () => {
 						className="bg-black text-white p-2 rounded-lg font-[500] px-4"
 						onClick={() => router.refresh()}
 					>
-						Buat Surat
+						Buat Suart
 					</AlertDialogTrigger>
 					<AlertDialogContent>
 						<Form {...form}>
 							<form onSubmit={form.handleSubmit(onSubmit)}>
 								<AlertDialogHeader>
 									<AlertDialogTitle className="text-center">
-										Buat SKTM
+										Buat Suket Usaha
 									</AlertDialogTitle>
+									<FormLabel className="text-start">NIK</FormLabel>
+									<FormField
+										control={form.control}
+										name="pendudukId"
+										render={({ field }) => (
+											<FormItem>
+												<FormControl>
+													<Input
+														className="mb-5"
+														disabled={isSubmitting}
+														placeholder="34**************"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 									<FormLabel className="text-start">Nomor Surat</FormLabel>
 									<FormField
 										control={form.control}
@@ -127,17 +135,17 @@ export const SktmForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">NIK Orangtua</FormLabel>
+									<FormLabel className="text-start">Usaha Sampingan</FormLabel>
 									<FormField
 										control={form.control}
-										name="nik_ortu"
+										name="usaha_sampingan"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="34**************"
+														placeholder="Petani"
 														{...field}
 													/>
 												</FormControl>
@@ -145,17 +153,17 @@ export const SktmForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">NIK Anak</FormLabel>
+									<FormLabel className="text-start">Di Kalurahan</FormLabel>
 									<FormField
 										control={form.control}
-										name="nik_anak"
+										name="di_kalurahan"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="34**************"
+														placeholder="Pringombo"
 														{...field}
 													/>
 												</FormControl>
@@ -163,17 +171,17 @@ export const SktmForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">Nama Instansi</FormLabel>
+									<FormLabel className="text-start">Di Kapanewon</FormLabel>
 									<FormField
 										control={form.control}
-										name="nama_instansi"
+										name="di_kapanewon"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="Nama sekolah / univ"
+														placeholder="Rongkop"
 														{...field}
 													/>
 												</FormControl>
@@ -181,35 +189,17 @@ export const SktmForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">Fakultas/Prodi</FormLabel>
+									<FormLabel className="text-start">Di Kabupaten</FormLabel>
 									<FormField
 										control={form.control}
-										name="fakultas_prodi"
+										name="di_kabupaten"
 										render={({ field }) => (
 											<FormItem>
 												<FormControl>
 													<Input
 														className="mb-5"
 														disabled={isSubmitting}
-														placeholder="Fakultas/Prodi (jika ada)"
-														{...field}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormLabel className="text-start">Kelas/Semester</FormLabel>
-									<FormField
-										control={form.control}
-										name="kelas_semester"
-										render={({ field }) => (
-											<FormItem>
-												<FormControl>
-													<Input
-														className="mb-5"
-														disabled={isSubmitting}
-														placeholder="Kelas/Semester"
+														placeholder="Gunungkidul"
 														{...field}
 													/>
 												</FormControl>
@@ -222,7 +212,7 @@ export const SktmForm = () => {
 									<AlertDialogCancel>Batal</AlertDialogCancel>
 									<AlertDialogAction
 										type="submit"
-										disabled={!isValid || isSubmitting}
+										disabled={!isValid || isSubmitting || isPending}
 									>
 										Buat surat
 									</AlertDialogAction>

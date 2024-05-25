@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import LoadingPage from '@/components/loading';
-import { SktmForm } from '@/components/surat/sktm-form';
+import { SktmForm } from '@/components/surat/form/sktm-form';
 
 type Props = {
 	children: React.ReactNode;

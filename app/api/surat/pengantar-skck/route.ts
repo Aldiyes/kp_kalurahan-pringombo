@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 
 		if (!dataPerson)
 			return NextResponse.json(
-				{ data: null, message: 'Penduduk not found' },
+				{ data: null, message: 'Penduduk Tidak Ditemukan' },
 				{ status: 404 }
 			);
 
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
 		if (pengantarSkckOwner?.pengantar_skck !== null) {
 			return NextResponse.json({
 				data: null,
-				message: 'Sudah memiliki surat pengantar SKCK',
+				message: 'Sudah Memiliki Surat Pengantar SKCK',
 			});
 		}
 
@@ -131,17 +131,17 @@ export async function POST(req: NextRequest) {
 			body: JSON.stringify(data),
 		});
 
-		const viewUrl = await postToDrive.text();
+		const getDocId = await postToDrive.text();
 
 		const createSurat = await db.pengantarSKCK.create({
 			data: {
-				doc_url: viewUrl,
+				doc_id: getDocId,
 				...values,
 			},
 		});
 
 		return NextResponse.json(
-			{ data: createSurat, message: 'Sukses Membuat Surat' },
+			{ data: createSurat, message: 'Berhasil Membuat Surat' },
 			{ status: 200 }
 		);
 	} catch (error) {
