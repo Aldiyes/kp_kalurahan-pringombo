@@ -20,7 +20,7 @@ export const getAllPengantarSkck = async () => {
 		}
 	);
 	if (!res.ok) {
-		console.log(`Error with status code: ${res.status}`);
+		throw Error(`Error with status code: ${res.status}`);
 	}
 
 	return res.json();

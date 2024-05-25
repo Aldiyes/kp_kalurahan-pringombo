@@ -61,6 +61,7 @@ model Penduduk {
   pengantar_skck       PengantarSKCK?
   SuketUsaha           SuketUsaha[]
   sktm                 SKTM[]
+  suket_kematian       SuketKematian?
 }
 
 model PengantarSKCK {
@@ -97,4 +98,16 @@ model SKTM {
   doc_id         String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model SuketKematian {
+  no_surat         String    @id
+  pendudukId       String    @unique
+  penduduk         Penduduk  @relation(fields: [pendudukId], references: [nik])
+  lokasi_meninggal String?
+  tanggal_kematian DateTime?
+  anak_ke          Int?
+  doc_id           String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 }
