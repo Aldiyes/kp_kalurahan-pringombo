@@ -61,11 +61,46 @@ export async function POST(req: NextRequest) {
 
 		if (!dataPerson)
 			return NextResponse.json(
-				{ data: null, message: 'Penduduk not found' },
+				{ data: null, message: 'Penduduk Tidak Ditemukan' },
 				{ status: 404 }
 			);
 
+		const pengantarSkckExists = await db.pengantarSKCK.findUnique({
+			where: {
+				no_surat: values.no_surat,
+			},
+		});
+
+		if (pengantarSkckExists) {
+			return NextResponse.json({
+				data: null,
+				message: 'Nomor Surat Sudah Ada',
+			});
+		}
+
+		const pengantarSkckOwner = await db.penduduk.findFirst({
+			where: {
+				nik: values.pendudukId,
+			},
+			include: {
+				pengantar_skck: true,
+			},
+		});
+
+		if (pengantarSkckOwner?.pengantar_skck !== null) {
+			return NextResponse.json({
+				data: null,
+				message: 'Sudah Memiliki Surat Pengantar SKCK',
+			});
+		}
+
 		const tanggalSurat = timeZoneFormatString(new Date());
+
+		const lurah = await db.penduduk.findFirst({
+			where: {
+				jabatan_di_kalurahan: 'LURAH',
+			},
+		});
 
 		const data = {
 			no_surat: atob(values.no_surat),
@@ -88,7 +123,7 @@ export async function POST(req: NextRequest) {
 				? FormatTitleString(dataPerson.padukuhan)
 				: '-',
 			tanggal_surat: tanggalSurat,
-			nama_lurah: 'ALDIYES PASKALIS BIRTA',
+			nama_lurah: lurah?.nama,
 		};
 
 		const postToDrive = await fetch(`${SURAT_PENGANTAR_SKCK_URL}`, {
@@ -96,19 +131,17 @@ export async function POST(req: NextRequest) {
 			body: JSON.stringify(data),
 		});
 
-		const viewUrl = await postToDrive.text();
+		const getDocId = await postToDrive.text();
 
-		const createPengantarSkck = await db.pengantarSKCK.create({
+		const createSurat = await db.pengantarSKCK.create({
 			data: {
-				no_surat: values.no_surat,
-				pendudukId: values.pendudukId,
-				keperluan: values.keperluan,
-				doc_url: viewUrl,
+				doc_id: getDocId,
+				...values,
 			},
 		});
 
 		return NextResponse.json(
-			{ data: createPengantarSkck, message: 'Success' },
+			{ data: createSurat, message: 'Berhasil Membuat Surat' },
 			{ status: 200 }
 		);
 	} catch (error) {

@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import LoadingPage from '@/components/loading';
-import { PengantarSkckForm } from '@/components/surat/pengantar-skck-form';
+import { PengantarSkckForm } from '@/components/surat/form/pengantar-skck-form';
 
 type Props = {
 	children: React.ReactNode;

@@ -39,14 +39,6 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
 	try {
-		// const session = await auth();
-		// if (!session) {
-		// 	return NextResponse.json(
-		// 		{ data: null, message: 'Unautorized' },
-		// 		{ status: 409 }
-		// 	);
-		// }
-
 		const penduduk = await db.penduduk.findMany();
 
 		if (!penduduk) {

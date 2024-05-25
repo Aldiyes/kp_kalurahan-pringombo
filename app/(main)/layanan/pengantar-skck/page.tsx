@@ -1,6 +1,6 @@
 import { getAllPengantarSkck } from '@/actions/surat/pengantar-skck';
 
-import ListNoSurat from '@/components/surat/list-no-surat';
+import { ListsSurat } from '@/components/surat/lists-surat';
 
 async function PengantarSkckPage() {
 	const surat = await getAllPengantarSkck();
@@ -13,7 +13,7 @@ async function PengantarSkckPage() {
 				</h1>
 			)}
 			{dataSurat?.map((surat: any) => (
-				<ListNoSurat
+				<ListsSurat
 					key={surat.no_surat}
 					nik={surat.pendudukId}
 					no_surat={surat.no_surat}
