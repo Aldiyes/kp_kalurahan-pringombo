@@ -136,6 +136,12 @@ export const SidebarRoutes = () => {
 								>
 									Surat Keterangan Kematian
 								</Link>
+								<Link
+									href="/layanan/izin-keramaian"
+									className="pl-4 hover:text-sky-700"
+								>
+									Surat Izin Keramaian
+								</Link>
 							</AccordionContent>
 						</AccordionItem>
 					</Accordion>

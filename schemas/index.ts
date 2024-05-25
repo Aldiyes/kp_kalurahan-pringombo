@@ -33,9 +33,3 @@ export const RegisterSchema = z.object({
 		message: 'Name is required',
 	}),
 });
-
-export const TaskSchema = z.object({
-	title: z.string().min(1),
-	planned: z.date().optional(),
-	important: z.boolean(),
-});
