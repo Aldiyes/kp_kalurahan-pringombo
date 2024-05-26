@@ -5,6 +5,7 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { getPendudukById } from '@/actions/penduduk/penduduk-actions';
 
 import { EditAgama } from '@/components/penduduk/edit/edit-agama';
+import { EditFoto } from '@/components/penduduk/edit/edit-foto';
 import { EditGolDarah } from '@/components/penduduk/edit/edit-gol-darah';
 import { EditJenisKelamin } from '@/components/penduduk/edit/edit-jenis-kelamin';
 import { EditNama } from '@/components/penduduk/edit/edit-nama';
@@ -64,27 +65,38 @@ export default async function EditDataPendudukPage({ params }: Props) {
 					</div>
 				</div>
 			</div>
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-x-8 mx-8 pb-12">
-				<EditNik initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditNokk initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditNama initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditNamaPanggilan initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditJenisKelamin initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditAgama initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditTanggalLahir initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditTempatLahir initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditPadukuhan initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditRt initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditRw initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditPendidikanKk initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditPendidikanSdt initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditPekerjaan initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditStatusKawin initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditShdk initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditGolDarah initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditNamaAyah initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditNamaIbu initialData={dataPenduduk} nik={dataPenduduk.nik} />
-				<EditStatusDuk initialData={dataPenduduk} nik={dataPenduduk.nik} />
+			<div className="grid grid-cols-1 md:grid-cols-8 gap-2 md:gap-x-8 mx-8 pb-12">
+				<div className="md:col-span-2 justify-self-center">
+					<EditFoto initialData={dataPenduduk} nik={dataPenduduk.nik} />
+				</div>
+				<div className="md:col-span-6 md:grid md:grid-cols-2 gap-2">
+					<EditNik initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditNokk initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditNama initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditNamaPanggilan
+						initialData={dataPenduduk}
+						nik={dataPenduduk.nik}
+					/>
+					<EditJenisKelamin initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditAgama initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditTanggalLahir initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditTempatLahir initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditPadukuhan initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditRt initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditRw initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditPendidikanKk initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditPendidikanSdt
+						initialData={dataPenduduk}
+						nik={dataPenduduk.nik}
+					/>
+					<EditPekerjaan initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditStatusKawin initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditShdk initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditGolDarah initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditNamaAyah initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditNamaIbu initialData={dataPenduduk} nik={dataPenduduk.nik} />
+					<EditStatusDuk initialData={dataPenduduk} nik={dataPenduduk.nik} />
+				</div>
 			</div>
 		</>
 	);
