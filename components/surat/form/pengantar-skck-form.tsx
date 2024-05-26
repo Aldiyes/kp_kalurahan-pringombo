@@ -106,7 +106,7 @@ export const PengantarSkckForm = () => {
 											</FormItem>
 										)}
 									/>
-									<FormLabel className="text-start">PENDUDUKID</FormLabel>
+									<FormLabel className="text-start">NIK</FormLabel>
 									<FormField
 										control={form.control}
 										name="pendudukId"

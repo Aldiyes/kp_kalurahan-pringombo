@@ -57,13 +57,6 @@ export const EditShdk = ({ initialData, nik }: Props) => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			//   const formatString = values.shdk.toUpperCase();
-			//   await axios.patch(`/api/penduduk/${nik}`, {
-			//     shdk: formatString,
-			//   });
-			//   toast.success("SHDK berhasil diubah");
-			//   toggleEdit();
-			//   router.refresh();
 			values.shdk = values.shdk.toUpperCase();
 			startTransition(() => {
 				editDataPenduduk(nik, values).then((response) => {

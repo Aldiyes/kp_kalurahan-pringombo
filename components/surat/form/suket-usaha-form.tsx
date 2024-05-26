@@ -97,7 +97,7 @@ export const SuketUsahaForm = () => {
 							<form onSubmit={form.handleSubmit(onSubmit)}>
 								<AlertDialogHeader>
 									<AlertDialogTitle className="text-center">
-										Buat Suket Usaha
+										Buat Surat Keterangan Usaha
 									</AlertDialogTitle>
 									<FormLabel className="text-start">NIK</FormLabel>
 									<FormField

@@ -51,12 +51,7 @@ export const EditTempatLahir = ({ initialData, nik }: Props) => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			//   const formatString = values.tempat_lahir.toUpperCase();
-			//   await axios.patch(`/api/penduduk/${nik}`, { tempat_lahir: formatString });
-			//   toast.success("Tempat lahir berhasil diubah");
-			//   toggleEdit();
-			//   router.refresh();
-			values.tempat_lahir = values.tempat_lahir;
+			values.tempat_lahir = values.tempat_lahir.toUpperCase();
 			startTransition(() => {
 				editDataPenduduk(nik, values).then((response) => {
 					if (response.data === null) {

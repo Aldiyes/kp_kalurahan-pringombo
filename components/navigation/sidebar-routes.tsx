@@ -125,7 +125,7 @@ export const SidebarRoutes = () => {
 									href="/layanan/suket-usaha"
 									className="pl-4 hover:text-sky-700"
 								>
-									Suket Keterangan Usaha
+									Surat Keterangan Usaha
 								</Link>
 								<Link href="/layanan/sktm" className="pl-4 hover:text-sky-700">
 									SKTM
@@ -135,6 +135,12 @@ export const SidebarRoutes = () => {
 									className="pl-4 hover:text-sky-700"
 								>
 									Surat Keterangan Kematian
+								</Link>
+								<Link
+									href="/layanan/izin-keramaian"
+									className="pl-4 hover:text-sky-700"
+								>
+									Surat Izin Keramaian
 								</Link>
 							</AccordionContent>
 						</AccordionItem>

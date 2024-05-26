@@ -4,10 +4,13 @@ import { auth } from '@/auth';
 
 import { db } from '@/lib/db';
 import { FormatCamelCase } from '@/lib/formats/format-string';
+import {
+	timeZoneFormatString,
+	timeZoneGetTimeString,
+	timeZoneWithDayName,
+} from '@/lib/formats/time-zone';
 
-import { timeZoneFormatString } from '@/lib/formats/time-zone';
-
-const SURAT_KETERANGAN_KEMATIAN_URL = process.env.SK_KEMATIAN_URL;
+const SURAT_IZIN_KERAMAIAN = process.env.IZIN_KERAMAIAN_URL;
 
 export async function GET(req: NextRequest) {
 	const session = await auth();
@@ -19,11 +22,11 @@ export async function GET(req: NextRequest) {
 	}
 
 	try {
-		const surat = await db.suketKematian.findMany();
+		const surat = await db.izinKeramaian.findMany();
 
 		if (!surat) {
 			return NextResponse.json(
-				{ data: null, message: 'Surat Keterangan Kematian Tidak Ditemukan' },
+				{ data: null, message: 'Surat Izin Keramaian Tidak Ditemukan' },
 				{ status: 404 }
 			);
 		}
@@ -67,38 +70,21 @@ export async function POST(req: NextRequest) {
 				{ status: 404 }
 			);
 
-		const suketKematianExists = await db.suketKematian.findUnique({
+		const suratExists = await db.izinKeramaian.findUnique({
 			where: {
 				no_surat: values.no_surat,
 			},
 		});
 
-		if (suketKematianExists) {
+		if (suratExists) {
 			return NextResponse.json({
 				data: null,
 				message: 'Nomor Surat Sudah Ada',
 			});
 		}
 
-		const suketKematianOwner = await db.penduduk.findFirst({
-			where: {
-				nik: values.pendudukId,
-			},
-			include: {
-				suket_kematian: true,
-			},
-		});
-
-		if (suketKematianOwner?.suket_kematian !== null) {
-			return NextResponse.json({
-				data: null,
-				message: 'Sudah Memiliki Surat Keterangan Kematian',
-			});
-		}
-
 		const tanggalSurat = timeZoneFormatString(new Date());
-
-		const tanggalKematian = new Date(values.tanggal_kematian);
+		const waktuKeramaian = new Date(values.waktu_keramaian);
 
 		const lurah = await db.penduduk.findFirst({
 			where: {
@@ -107,37 +93,34 @@ export async function POST(req: NextRequest) {
 		});
 
 		const data = {
-			no_surat: atob(values.no_surat),
+			tanggal_surat: tanggalSurat,
 			nama_lengkap: dataPerson.nama,
-			nik: atob(dataPerson.nik),
-			tempat_lahir: dataPerson.tempat_lahir ? dataPerson.tempat_lahir : '-',
-			tanggal_lahir: dataPerson.tanggal_lahir
-				? timeZoneFormatString(dataPerson.tanggal_lahir)
-				: '-',
-			agama: dataPerson.agama ? dataPerson.agama : '-',
 			pekerjaan: dataPerson.pekerjaan ? dataPerson.pekerjaan : '-',
-			rt: dataPerson.rt,
-			rw: dataPerson.rw,
+			usia: dataPerson.umur,
+			jenis_kelamin: dataPerson.jenis_kelamin ? dataPerson.jenis_kelamin : '-',
 			padukuhan: dataPerson.padukuhan
 				? FormatCamelCase(dataPerson.padukuhan)
 				: '-',
-			lokasi_meninggal: values.lokasi_meninggal,
-			tanggal_kematian: timeZoneFormatString(tanggalKematian),
-			anak_ke: values.anak_ke,
-			nama_ayah: dataPerson.nama_ayah ? dataPerson.nama_ayah : '-',
-			nama_ibu: dataPerson.nama_ibu ? dataPerson.nama_ibu : '-',
-			tanggal_surat: tanggalSurat,
+			rt: dataPerson.rt ? dataPerson.rt : '-',
+			rw: dataPerson.rw ? dataPerson.rw : '-',
+			tanggal_keramaian: timeZoneWithDayName(waktuKeramaian),
+			waktu_keramaian: timeZoneGetTimeString(waktuKeramaian),
+			tempat_keramaian: values.tempat_keramaian,
+			lama_keramaian: values.lama_keramaian,
+			jenis_keramaian: values.jenis_keramaian,
+			keperluan_keramaian: values.keperluan_keramaian,
+			no_surat: atob(values.no_surat),
 			nama_lurah: lurah?.nama,
 		};
 
-		const postToDrive = await fetch(`${SURAT_KETERANGAN_KEMATIAN_URL}`, {
+		const postToDrive = await fetch(`${SURAT_IZIN_KERAMAIAN}`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 		});
 
 		const getDocId = await postToDrive.text();
 
-		const createSurat = await db.suketKematian.create({
+		const createSurat = await db.izinKeramaian.create({
 			data: {
 				doc_id: getDocId,
 				...values,
