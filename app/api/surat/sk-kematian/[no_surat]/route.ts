@@ -18,14 +18,14 @@ export async function GET(
 	}
 
 	try {
-		const surat = await db.pengantarSKCK.findUnique({
+		const surat = await db.suketKematian.findUnique({
 			where: {
 				no_surat: params.no_surat,
 			},
 		});
 		if (!surat) {
 			return NextResponse.json(
-				{ data: null, message: 'Pengantar SKCK Tidak Ditemukan' },
+				{ data: null, message: 'Surat Keterangan Kematian Tidak Ditemukan' },
 				{ status: 404 }
 			);
 		}
@@ -50,7 +50,7 @@ export async function DELETE(
 	{ params }: { params: { no_surat: string } }
 ) {
 	try {
-		const surat = await db.pengantarSKCK.findUnique({
+		const surat = await db.suketKematian.findUnique({
 			where: {
 				no_surat: params.no_surat,
 			},
@@ -70,7 +70,7 @@ export async function DELETE(
 
 		const deleteResponse = await deleteDrive.text();
 
-		const deleteDb = await db.pengantarSKCK.delete({
+		const deleteDb = await db.suketKematian.delete({
 			where: {
 				no_surat: params.no_surat,
 			},
