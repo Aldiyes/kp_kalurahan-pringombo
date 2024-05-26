@@ -57,13 +57,6 @@ export const EditPendidikanKk = ({ initialData, nik }: Props) => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			//   const formatString = values.pendidikan_kk.toUpperCase();
-			//   await axios.patch(`/api/penduduk/${nik}`, {
-			//     pendidikan_kk: formatString,
-			//   });
-			//   toast.success("Pendidikan Dalam KK berhasil diubah");
-			//   toggleEdit();
-			//   router.refresh();
 			values.pendidikan_kk = values.pendidikan_kk.toUpperCase();
 			startTransition(() => {
 				editDataPenduduk(nik, values).then((response) => {

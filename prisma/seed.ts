@@ -2,7 +2,6 @@ import fs from 'fs';
 
 import { PrismaClient } from '@prisma/client';
 
-import bcrypt from 'bcryptjs';
 import { countAge } from '../lib/formats/count-age';
 
 const prisma = new PrismaClient();
@@ -188,65 +187,59 @@ async function main() {
 
 			let data_jabatan_di_kalurahan = jabatan_di_kalurahan;
 			if (nik === '3403116312720001') {
-				data_jabatan_di_kalurahan = 'LURAH';
+				data_jabatan_di_kalurahan = 'lurah';
 			}
 			if (nik === '3403111806890001') {
-				data_jabatan_di_kalurahan = 'CARIK';
+				data_jabatan_di_kalurahan = 'carik';
 			}
 			if (nik === '3403110403690002') {
-				data_jabatan_di_kalurahan = 'JAGABAYA';
+				data_jabatan_di_kalurahan = 'jagabaya';
 			}
 			if (nik === '3403112509940002') {
-				data_jabatan_di_kalurahan = 'ULU ULU';
+				data_jabatan_di_kalurahan = 'ulu-ulu';
 			}
 			if (nik === '3403111910680001') {
-				data_jabatan_di_kalurahan = 'KAMITUA';
+				data_jabatan_di_kalurahan = 'kamitua';
 			}
 			if (nik === '3403110203910001') {
-				data_jabatan_di_kalurahan = 'KAUR TATA LAKSANA';
+				data_jabatan_di_kalurahan = 'kaur-tata-laksana';
 			}
 			if (nik === '3403111702830001') {
-				data_jabatan_di_kalurahan = 'KAUR DANARTA';
+				data_jabatan_di_kalurahan = 'kaur-danarta';
 			}
 			if (nik === '3403112505640001') {
-				data_jabatan_di_kalurahan = 'KAUR PANGRIPTO';
+				data_jabatan_di_kalurahan = 'kaur-pangripto';
 			}
 			if (nik === '3403110907880001') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-kayangan';
 			}
 			if (nik === '3403111109740002') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-ngembringan';
 			}
 			if (nik === '1802111201780005') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-pakel';
 			}
 			if (nik === '3403110507710001') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-plalar';
 			}
 			if (nik === '3403115204790001') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-pringombo-a';
 			}
 			if (nik === '3403110703800002') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-pringombo-b';
 			}
 			if (nik === '3403110806680001') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-pringombo-c';
 			}
 			if (nik === '3403111212930003') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-sempu';
 			}
 			if (nik === '3403111502690001') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-tirisan-a';
 			}
 			if (nik === '3403112807650001') {
-				data_jabatan_di_kalurahan = 'DUKUH';
+				data_jabatan_di_kalurahan = 'dukuh-tirisan-b';
 			}
-
-			const values = {
-				email: 'kalurahanpringombo89@gmail.com',
-				password: 'KalurahanPringombo1911',
-				name: 'Pringombo',
-			};
 
 			await upsertPenduduk(
 				encryptNik,

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
+
 import { db } from '@/lib/db';
-import { FormatTitleString } from '@/lib/formats/format-title-string';
+import { FormatCamelCase } from '@/lib/formats/format-string';
 import {
 	timeZoneFormatString,
 	timeZoneGetTimeString,
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
 
 		const lurah = await db.penduduk.findFirst({
 			where: {
-				jabatan_di_kalurahan: 'LURAH',
+				jabatan_di_kalurahan: 'lurah',
 			},
 		});
 
@@ -98,7 +99,7 @@ export async function POST(req: NextRequest) {
 			usia: dataPerson.umur,
 			jenis_kelamin: dataPerson.jenis_kelamin ? dataPerson.jenis_kelamin : '-',
 			padukuhan: dataPerson.padukuhan
-				? FormatTitleString(dataPerson.padukuhan)
+				? FormatCamelCase(dataPerson.padukuhan)
 				: '-',
 			rt: dataPerson.rt ? dataPerson.rt : '-',
 			rw: dataPerson.rw ? dataPerson.rw : '-',

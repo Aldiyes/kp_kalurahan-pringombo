@@ -1,6 +1,8 @@
-import { getPerangkatkalurahan } from '@/actions/penduduk/penduduk-actions';
-import { DataCard } from '@/components/card/data-card';
 import Link from 'next/link';
+
+import { getPerangkatkalurahan } from '@/actions/penduduk/penduduk-actions';
+
+import { DataCard } from '@/components/card/data-card';
 
 export default async function PerangkatKalurahanPage() {
 	const perangkatKalurahan = await getPerangkatkalurahan();
@@ -13,7 +15,7 @@ export default async function PerangkatKalurahanPage() {
 				{perangkatKalurahan?.map((data) => (
 					<Link
 						key={data.nik}
-						href={`/pemerintahan/perangkat-kalurahan/${data.nik}`}
+						href={`/pemerintahan/perangkat-kalurahan/${data.jabatan_di_kalurahan}`}
 					>
 						<DataCard
 							key={data.nik}

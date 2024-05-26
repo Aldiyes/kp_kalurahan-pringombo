@@ -4,7 +4,7 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 
 export async function GET(
-	req: Request,
+	req: NextRequest,
 	{ params }: { params: { nik: string } }
 ) {
 	try {
@@ -24,7 +24,7 @@ export async function GET(
 
 		if (!penduduk) {
 			return NextResponse.json(
-				{ data: null, message: 'Nik not found' },
+				{ data: null, message: 'NIK Tidak Ditemukan' },
 				{ status: 404 }
 			);
 		}
@@ -45,7 +45,7 @@ export async function GET(
 }
 
 export async function DELETE(
-	req: Request,
+	req: NextRequest,
 	{ params }: { params: { nik: string } }
 ) {
 	try {
@@ -65,7 +65,7 @@ export async function DELETE(
 
 		if (!penduduk) {
 			return NextResponse.json(
-				{ data: null, message: 'Nik not found' },
+				{ data: null, message: 'NIK Tidak Ditemukan' },
 				{ status: 404 }
 			);
 		}
@@ -91,7 +91,7 @@ export async function DELETE(
 }
 
 export async function PATCH(
-	req: Request,
+	req: NextRequest,
 	{ params }: { params: { nik: string } }
 ) {
 	try {
@@ -112,7 +112,7 @@ export async function PATCH(
 
 		if (!penduduk) {
 			return NextResponse.json(
-				{ data: null, message: 'Nik not found' },
+				{ data: null, message: 'NIK Tidak Ditemukan' },
 				{ status: 404 }
 			);
 		}

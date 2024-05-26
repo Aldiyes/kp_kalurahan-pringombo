@@ -57,13 +57,6 @@ export const EditStatusDuk = ({ initialData, nik }: Props) => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			//   const formatString = values.status_duk.toUpperCase();
-			//   await axios.patch(`/api/penduduk/${nik}`, {
-			//     status_duk: formatString,
-			//   });
-			//   toast.success("Status Kependudukan berhasil diubah");
-			//   toggleEdit();
-			//   router.refresh();
 			values.status_duk = values.status_duk.toUpperCase();
 			startTransition(() => {
 				editDataPenduduk(nik, values).then((response) => {
