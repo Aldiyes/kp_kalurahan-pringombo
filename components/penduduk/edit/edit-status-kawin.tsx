@@ -57,13 +57,6 @@ export const EditStatusKawin = ({ initialData, nik }: Props) => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			//   const formatString = values.status_kawin.toUpperCase();
-			//   await axios.patch(`/api/penduduk/${nik}`, {
-			//     status_kawin: formatString,
-			//   });
-			//   toast.success("Status Perkawinan berhasil diubah");
-			//   toggleEdit();
-			//   router.refresh();
 			values.status_kawin = values.status_kawin.toUpperCase();
 			startTransition(() => {
 				editDataPenduduk(nik, values).then((response) => {

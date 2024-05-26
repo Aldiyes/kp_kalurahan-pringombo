@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
+
 import { db } from '@/lib/db';
-import { FormatTitleString } from '@/lib/formats/format-title-string';
+import { FormatCamelCase } from '@/lib/formats/format-string';
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
 const SURAT_KETERANGAN_KEMATIAN_URL = process.env.SK_KEMATIAN_URL;
@@ -99,7 +100,7 @@ export async function POST(req: NextRequest) {
 
 		const lurah = await db.penduduk.findFirst({
 			where: {
-				jabatan_di_kalurahan: 'LURAH',
+				jabatan_di_kalurahan: 'lurah',
 			},
 		});
 
@@ -116,7 +117,7 @@ export async function POST(req: NextRequest) {
 			rt: dataPerson.rt,
 			rw: dataPerson.rw,
 			padukuhan: dataPerson.padukuhan
-				? FormatTitleString(dataPerson.padukuhan)
+				? FormatCamelCase(dataPerson.padukuhan)
 				: '-',
 			lokasi_meninggal: values.lokasi_meninggal,
 			tanggal_kematian: timeZoneFormatString(tanggalKematian),

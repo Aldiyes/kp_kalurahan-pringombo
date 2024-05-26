@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { countAgeByDate } from '@/lib/formats/count-age';
-import { FormatTitleString } from '@/lib/formats/format-title-string';
+import { FormatCamelCase } from '@/lib/formats/format-string';
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
 const SURAT_KETERANGAN_TIDAK_MAMPU_URL = process.env.SKTM_URL;
@@ -95,7 +94,7 @@ export async function POST(req: NextRequest) {
 
 		const lurah = await db.penduduk.findFirst({
 			where: {
-				jabatan_di_kalurahan: 'LURAH',
+				jabatan_di_kalurahan: 'lurah',
 			},
 		});
 
@@ -125,9 +124,7 @@ export async function POST(req: NextRequest) {
 			agama_ortu: dataOrtu.agama ? dataOrtu.agama : '-',
 			rt: dataOrtu.rt ? dataOrtu.rt : '-',
 			rw: dataOrtu.rw ? dataOrtu.rw : '-',
-			padukuhan: dataOrtu.padukuhan
-				? FormatTitleString(dataOrtu.padukuhan)
-				: '-',
+			padukuhan: dataOrtu.padukuhan ? FormatCamelCase(dataOrtu.padukuhan) : '-',
 			tanggal_surat: tanggalSurat,
 			nama_lurah: lurah?.nama,
 		};

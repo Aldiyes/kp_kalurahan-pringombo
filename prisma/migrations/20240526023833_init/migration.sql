@@ -37,7 +37,7 @@ CREATE TABLE "Penduduk" (
     "alias" TEXT,
     "agama" TEXT,
     "jenis_kelamin" TEXT,
-    "kewarganegaraan" TEXT NOT NULL DEFAULT 'Indonesia',
+    "kewarganegaraan" TEXT NOT NULL DEFAULT 'indonesia',
     "padukuhan" TEXT,
     "rt" INTEGER,
     "rw" INTEGER,
@@ -114,6 +114,22 @@ CREATE TABLE "SuketKematian" (
     CONSTRAINT "SuketKematian_pkey" PRIMARY KEY ("no_surat")
 );
 
+-- CreateTable
+CREATE TABLE "IzinKeramaian" (
+    "no_surat" TEXT NOT NULL,
+    "pendudukId" TEXT NOT NULL,
+    "jenis_keramaian" TEXT,
+    "keperluan_keramaian" TEXT,
+    "tempat_keramaian" TEXT,
+    "waktu_keramaian" TIMESTAMP(3),
+    "lama_keramaian" TEXT,
+    "doc_id" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "IzinKeramaian_pkey" PRIMARY KEY ("no_surat")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -146,3 +162,6 @@ ALTER TABLE "SKTM" ADD CONSTRAINT "SKTM_nik_ortu_fkey" FOREIGN KEY ("nik_ortu") 
 
 -- AddForeignKey
 ALTER TABLE "SuketKematian" ADD CONSTRAINT "SuketKematian_pendudukId_fkey" FOREIGN KEY ("pendudukId") REFERENCES "Penduduk"("nik") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "IzinKeramaian" ADD CONSTRAINT "IzinKeramaian_pendudukId_fkey" FOREIGN KEY ("pendudukId") REFERENCES "Penduduk"("nik") ON DELETE RESTRICT ON UPDATE CASCADE;
