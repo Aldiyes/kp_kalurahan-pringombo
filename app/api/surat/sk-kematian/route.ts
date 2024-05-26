@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 
 import { db } from '@/lib/db';
 import { FormatCamelCase } from '@/lib/formats/format-string';
+
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
 const SURAT_KETERANGAN_KEMATIAN_URL = process.env.SK_KEMATIAN_URL;
@@ -96,6 +97,7 @@ export async function POST(req: NextRequest) {
 		}
 
 		const tanggalSurat = timeZoneFormatString(new Date());
+
 		const tanggalKematian = new Date(values.tanggal_kematian);
 
 		const lurah = await db.penduduk.findFirst({
@@ -134,8 +136,6 @@ export async function POST(req: NextRequest) {
 		});
 
 		const getDocId = await postToDrive.text();
-
-		console.log('[GET_GOOGLE_DOCS_ID] - ', getDocId);
 
 		const createSurat = await db.suketKematian.create({
 			data: {
