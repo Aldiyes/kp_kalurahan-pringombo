@@ -58,12 +58,12 @@ model Penduduk {
   nama_ibu             String?
   jabatan_di_kalurahan String          @default("penduduk")
   status_duk           String?
+  image_url            String?
   pengantar_skck       PengantarSKCK?
   SuketUsaha           SuketUsaha[]
   sktm                 SKTM[]
   suket_kematian       SuketKematian?
   IzinKeramaian        IzinKeramaian[]
-
 }
 
 model PengantarSKCK {

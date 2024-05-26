@@ -54,6 +54,7 @@ CREATE TABLE "Penduduk" (
     "nama_ibu" TEXT,
     "jabatan_di_kalurahan" TEXT NOT NULL DEFAULT 'penduduk',
     "status_duk" TEXT,
+    "image_url" TEXT,
 
     CONSTRAINT "Penduduk_pkey" PRIMARY KEY ("nik")
 );
