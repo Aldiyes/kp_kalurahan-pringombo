@@ -32,7 +32,6 @@ export const EditFoto = ({ initialData, nik }: Props) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      values.image_url = values.image_url.toUpperCase();
       startTransition(() => {
         editDataPenduduk(nik, values).then((response) => {
           if (response.data === null) {
@@ -79,19 +78,17 @@ export const EditFoto = ({ initialData, nik }: Props) => {
           </div>
         ))}
       {isEditing && (
-		<div>
-			<FileUpload
-			endpoint="foto_penduduk"
-			onchange={(url) => {
-				if(url){
-					onSubmit({ image_url: url});
-				}
-			}}
-			/>
-			<div className="text-xs text-muted-foreground mt-4">
-				16:9 aspect ratio recommended
-			</div>
-		</div>
+        <div>
+          <FileUpload
+            endpoint="foto_penduduk"
+            onchange={(url) => {
+              if (url) {
+                onSubmit({ image_url: url });
+              }
+            }}
+          />
+          <div className="text-xs text-muted-foreground mt-4">16:9 aspect ratio recommended</div>
+        </div>
       )}
     </div>
   );
