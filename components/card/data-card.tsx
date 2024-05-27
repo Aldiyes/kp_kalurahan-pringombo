@@ -6,6 +6,7 @@ import {
 	FormatStripString,
 } from '@/lib/formats/format-string';
 
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 import {
 	Card,
 	CardContent,
@@ -21,16 +22,25 @@ interface Props {
 
 export const DataCard = ({ image, nama, jabatan }: Props) => {
 	return (
-		<Card className="flex flex-col justify-between shadow-md">
-			<CardHeader className="relative w-full bg-red-300 h-40 rounded-lg">
-				<Image src={image} fill className="object-contain" alt="foto" />
-			</CardHeader>
-			<CardContent className="text-center font-[500] mt-3 flex items-center justify-center h-16">
-				{nama ? FormatCamelCase(nama) : '-'}
-			</CardContent>
-			<CardFooter className="flex items-center justify-center h-8 text-gray-400 font-[500] text-center">
-				{FormatStripString(jabatan)}
-			</CardFooter>
+		<Card className="flex flex-col max-h-96">
+			<div className="bg-neutral-200 rounded-lg">
+				<AspectRatio ratio={4 / 5}>
+					<Image
+						src={image}
+						fill
+						alt="foto"
+						className="object-contain rounded-md"
+					/>
+				</AspectRatio>
+			</div>
+			<div className="flex flex-col text-sm justify-between items-center h-[72px] py-2 px-2">
+				<h1 className="text-center font-semibold">
+					{nama && FormatCamelCase(nama)}
+				</h1>
+				<p className="text-center text-sm text-muted-foreground">
+					{FormatStripString(jabatan)}
+				</p>
+			</div>
 		</Card>
 	);
 };

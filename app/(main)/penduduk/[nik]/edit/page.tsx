@@ -26,6 +26,7 @@ import { EditTempatLahir } from "@/components/penduduk/edit/edit-tempat-lahir";
 import { EditPendidikanKk } from "@/components/penduduk/edit/edit.pendidikan-kk";
 import { EditFoto } from "@/components/penduduk/edit/edit-foto";
 
+
 type Props = {
   params: {
     nik: string;
@@ -86,4 +87,5 @@ export default async function EditDataPendudukPage({ params }: Props) {
       </div>
     </>
   );
+
 }
