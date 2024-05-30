@@ -6,7 +6,7 @@ export default function AgendaKegiatanPage() {
 			</h1>
 			<div className="flex flex-col justify-center gap-2 pt-2 pb-16 md:px-8">
 				{/* // TODO: Agenda Kegiatan */}
-				<p>Maintenence</p>
+				<p>Maintenance</p>
 			</div>
 		</section>
 	);
