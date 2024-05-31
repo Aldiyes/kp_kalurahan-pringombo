@@ -9,7 +9,8 @@ type Props = {
 	children: React.ReactNode;
 };
 
-async function PengantarSkckLayout({ children }: Props) {
+export default async function PengantarSkckLayout({ children }: Props) {
+
 	const session = await auth();
 	if (!session) {
 		return redirect('/denied');
@@ -26,5 +27,3 @@ async function PengantarSkckLayout({ children }: Props) {
 		</div>
 	);
 }
-
-export default PengantarSkckLayout;

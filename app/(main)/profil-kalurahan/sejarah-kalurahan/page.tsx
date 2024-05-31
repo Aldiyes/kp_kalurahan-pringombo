@@ -5,7 +5,7 @@ export default function SejarahDesaPage() {
 		<section className="p-2 flex flex-col items-center h-full gap-y-6 mb-30">
 			<div className="w-full md:p-2">
 				<h1 className="text-sky-700 font-bold text-xl text-start md:text-4xl">
-					Sejarah Desa
+					Sejarah Kalurahan
 				</h1>
 			</div>
 			<div className="w-full over flex justify-center my-4">
@@ -21,7 +21,7 @@ export default function SejarahDesaPage() {
 			<div className="flex flex-col lg:max-w-[90rem] gap-12 lg:px-[9rem]">
 				<div className="flex flex-col items-center justify-center gap-2">
 					<h1 className="font-bold text-xl text-center md:text-4xl">
-						Sejarah Desa Pringombo
+						Sejarah Kalurahan Pringombo
 					</h1>
 					<div className="flex flex-col md:max-w-[90rem] gap-2 justify-center">
 						<p className="text-justify">

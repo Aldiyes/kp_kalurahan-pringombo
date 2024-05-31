@@ -50,10 +50,6 @@ export const EditRt = ({ initialData, nik }: Props) => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			//   await axios.patch(`/api/penduduk/${nik}`, values);
-			//   toast.success("RT berhasil diubah");
-			//   toggleEdit();
-			//   router.refresh();
 			values.rt = values.rt;
 			startTransition(() => {
 				editDataPenduduk(nik, values).then((response) => {

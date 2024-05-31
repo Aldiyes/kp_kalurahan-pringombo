@@ -90,14 +90,14 @@ export const SuketUsahaForm = () => {
 						className="bg-black text-white p-2 rounded-lg font-[500] px-4"
 						onClick={() => router.refresh()}
 					>
-						Buat Suart
+						Buat Surat
 					</AlertDialogTrigger>
 					<AlertDialogContent>
 						<Form {...form}>
 							<form onSubmit={form.handleSubmit(onSubmit)}>
 								<AlertDialogHeader>
 									<AlertDialogTitle className="text-center">
-										Buat Suket Usaha
+										Buat Surat Keterangan Usaha
 									</AlertDialogTitle>
 									<FormLabel className="text-start">NIK</FormLabel>
 									<FormField

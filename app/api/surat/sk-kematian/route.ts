@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
+
 import { db } from '@/lib/db';
-import { FormatTitleString } from '@/lib/formats/format-title-string';
+import { FormatCamelCase } from '@/lib/formats/format-string';
+
 import { timeZoneFormatString } from '@/lib/formats/time-zone';
 
 const SURAT_KETERANGAN_KEMATIAN_URL = process.env.SK_KEMATIAN_URL;
@@ -52,7 +54,6 @@ export async function POST(req: NextRequest) {
 
 	try {
 		const values = await req.json();
-		const tanggalKematian = new Date(values.tanggal_kematian);
 
 		const dataPerson = await db.penduduk.findUnique({
 			where: {
@@ -97,9 +98,11 @@ export async function POST(req: NextRequest) {
 
 		const tanggalSurat = timeZoneFormatString(new Date());
 
+		const tanggalKematian = new Date(values.tanggal_kematian);
+
 		const lurah = await db.penduduk.findFirst({
 			where: {
-				jabatan_di_kalurahan: 'LURAH',
+				jabatan_di_kalurahan: 'lurah',
 			},
 		});
 
@@ -116,7 +119,7 @@ export async function POST(req: NextRequest) {
 			rt: dataPerson.rt,
 			rw: dataPerson.rw,
 			padukuhan: dataPerson.padukuhan
-				? FormatTitleString(dataPerson.padukuhan)
+				? FormatCamelCase(dataPerson.padukuhan)
 				: '-',
 			lokasi_meninggal: values.lokasi_meninggal,
 			tanggal_kematian: timeZoneFormatString(tanggalKematian),
@@ -133,8 +136,6 @@ export async function POST(req: NextRequest) {
 		});
 
 		const getDocId = await postToDrive.text();
-
-		console.log('[GET_GOOGLE_DOCS_ID] - ', getDocId);
 
 		const createSurat = await db.suketKematian.create({
 			data: {

@@ -1,34 +1,29 @@
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image";
+import React from "react";
 
-import { FormatTitleString } from '@/lib/formats/format-title-string';
+import { FormatCamelCase, FormatStripString } from "@/lib/formats/format-string";
 
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-} from '@/components/ui/card';
-import Link from 'next/link';
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 interface Props {
-	image: string;
-	nama?: string;
-	jabatan: string;
+  image: string;
+  nama?: string;
+  jabatan: string;
 }
 
 export const DataCard = ({ image, nama, jabatan }: Props) => {
-	return (
-		<Card className="flex flex-col justify-between shadow-md">
-			<CardHeader className="relative w-full bg-red-300 h-40 rounded-lg">
-				<Image src={image} fill className="object-contain" alt="foto" />
-			</CardHeader>
-			<CardContent className="text-center font-[500] mt-3 flex items-center justify-center h-16">
-				{nama ? FormatTitleString(nama) : '-'}
-			</CardContent>
-			<CardFooter className="flex items-center justify-center h-8 text-gray-400 font-[500] text-center">
-				{jabatan}
-			</CardFooter>
-		</Card>
-	);
+  return (
+    <Card className="flex flex-col max-h-96">
+      <div className="bg-neutral-200 rounded-lg">
+        <AspectRatio ratio={4 / 5}>
+          <Image src={image} fill alt="foto" className="object-cover rounded-md" />
+        </AspectRatio>
+      </div>
+      <div className="flex flex-col text-sm justify-between items-center h-[72px] py-2 px-2">
+        <h1 className="text-center font-semibold">{nama && FormatCamelCase(nama)}</h1>
+        <p className="text-center text-sm text-muted-foreground">{FormatStripString(jabatan)}</p>
+      </div>
+    </Card>
+  );
 };

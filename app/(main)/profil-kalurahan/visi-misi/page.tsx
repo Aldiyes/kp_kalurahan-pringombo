@@ -6,7 +6,7 @@ export default function VisiMisiPage() {
 					Visi dan Misi Kalurahan Pringombo
 				</h1>
 			</div>
-			<div className="flex flex-col lg:max-w-[90rem] gap-12 lg:px-[9rem]">
+			<div className="flex flex-col lg:max-w-[90rem] gap-12 lg:px-[9rem] px-6">
 				<div className="flex flex-col items-center justify-center gap-2">
 					<h1 className="font-bold text-xl text-center md:text-4xl">VISI</h1>
 					<div className="flex flex-col md:max-w-[90rem] gap-2 items-center justify-center">

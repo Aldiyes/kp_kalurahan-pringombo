@@ -4,7 +4,7 @@ export default function GaleriPage() {
 			<h1 className="text-sky-700 font-bold text-xl md:text-2xl">Galeri</h1>
 			<div className="flex flex-col justify-center gap-2 pt-2 pb-16 md:px-8">
 				{/* // TODO: Galeri */}
-				<p>Maintenence</p>
+				<p>Maintenance</p>
 			</div>
 		</section>
 	);
