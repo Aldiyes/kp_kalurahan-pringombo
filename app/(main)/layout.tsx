@@ -1,8 +1,8 @@
 'use client';
 
 import { Suspense } from 'react';
-import LoadingPage from './loading';
 
+import LoadingPage from '@/components/loading';
 import { Navbar } from '@/components/navigation/navbar';
 import { Sidebar } from '@/components/navigation/sidebar';
 
